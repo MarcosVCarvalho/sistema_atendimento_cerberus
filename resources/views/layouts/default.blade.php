@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@yield('title', 'Alunos Uninassau')</title>
+    <title>@yield('title', 'Home ')</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -26,10 +26,10 @@
 
             <a
                 class="navbar-brand d-flex align-items-center"
-                href="{{ route('alunos.index') }}"
+                href="{{ route('pacientes.index') }}"
             >
                 <i class="bi bi-house me-2"></i>
-                Alunos Uninassau
+                Pacientes
             </a>
 
             <button
@@ -49,11 +49,11 @@
                         <a
                             @class([
                                 'nav-link',
-                                'active' => request()->routeIs('alunos.index')
+                                'active' => request()->routeIs('pacientes.index')
                             ])
-                            href="{{ route('alunos.index') }}"
+                            href="{{ route('pacientes.index') }}"
                         >
-                            Alunos
+                            Pacientes
                         </a>
                     </li>
 

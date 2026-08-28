@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AlunoController;
+use App\Http\Controllers\PacienteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('alunos.index');
+    return redirect()->route('pacientes.index');
 });
 
 
-Route::resource('alunos', AlunoController::class);
+Route::resource('pacientes', PacienteController::class);

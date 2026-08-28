@@ -1,65 +1,70 @@
 @extends('layouts.default')
 
-@section('title', 'Editar Aluno')
+@section('title', 'Editar Paciente')
 
 @section('content')
 
 <div class="container">
 
-
+```
 {{-- Cabeçalho --}}
 <div class="d-flex justify-content-between align-items-center mb-4">
 
     <div>
         <h1 class="fw-bold text-dark mb-1">
-            Editar Aluno
+            Editar Paciente
         </h1>
 
         <p class="text-muted mb-0">
-            Altere os dados do aluno.
+            Altere os dados do paciente.
         </p>
     </div>
 
-    <a href="{{ route('alunos.index') }}" class="btn btn-secondary">
+    <a href="{{ route('pacientes.index') }}" class="btn btn-secondary">
         ← Voltar
     </a>
 
 </div>
 
-
 {{-- Mensagem de erro geral --}}
 @if ($errors->any())
+
     <div class="alert alert-danger">
+
         <strong>Verifique os seguintes erros:</strong>
 
         <ul class="mb-0 mt-2">
+
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
-        </ul>
-    </div>
-@endif
 
+        </ul>
+
+    </div>
+
+@endif
 
 {{-- Formulário --}}
 <div class="card shadow-sm border-0">
 
     <div class="card-header bg-primary text-white">
+
         <h5 class="mb-0">
-            Dados do aluno
+            Dados do paciente
         </h5>
+
     </div>
 
     <div class="card-body">
 
         <form
-            action="{{ route('alunos.update', $aluno) }}"
+            action="{{ route('pacientes.update', $paciente) }}"
             method="POST"
         >
 
             @csrf
             @method('PUT')
-
 
             {{-- Nome --}}
             <div class="mb-3">
@@ -73,7 +78,7 @@
                     name="nome"
                     id="nome"
                     class="form-control @error('nome') is-invalid @enderror"
-                    value="{{ old('nome', $aluno->nome) }}"
+                    value="{{ old('nome', $paciente->nome) }}"
                     placeholder="Ex: João da Silva"
                     required
                     autofocus
@@ -87,25 +92,24 @@
 
             </div>
 
-
-            {{-- Matrícula --}}
+            {{-- CPF --}}
             <div class="mb-3">
 
-                <label for="matricula" class="form-label fw-semibold">
-                    Matrícula
+                <label for="cpf" class="form-label fw-semibold">
+                    CPF
                 </label>
 
                 <input
                     type="text"
-                    name="matricula"
-                    id="matricula"
-                    class="form-control @error('matricula') is-invalid @enderror"
-                    value="{{ old('matricula', $aluno->matricula) }}"
-                    placeholder="Ex: 2026001234"
+                    name="cpf"
+                    id="cpf"
+                    class="form-control @error('cpf') is-invalid @enderror"
+                    value="{{ old('cpf', $paciente->cpf) }}"
+                    placeholder="Ex: 123.456.789-00"
                     required
                 >
 
-                @error('matricula')
+                @error('cpf')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -113,9 +117,8 @@
 
             </div>
 
-
             {{-- Telefone --}}
-            <div class="mb-4">
+            <div class="mb-3">
 
                 <label for="telefone" class="form-label fw-semibold">
                     Telefone
@@ -126,7 +129,7 @@
                     name="telefone"
                     id="telefone"
                     class="form-control @error('telefone') is-invalid @enderror"
-                    value="{{ old('telefone', $aluno->telefone) }}"
+                    value="{{ old('telefone', $paciente->telefone) }}"
                     placeholder="Ex: (88) 9 8888-8888"
                 >
 
@@ -138,12 +141,58 @@
 
             </div>
 
+            {{-- WhatsApp --}}
+            <div class="mb-3">
+
+                <label for="whatsapp" class="form-label fw-semibold">
+                    WhatsApp
+                </label>
+
+                <input
+                    type="text"
+                    name="whatsapp"
+                    id="whatsapp"
+                    class="form-control @error('whatsapp') is-invalid @enderror"
+                    value="{{ old('whatsapp', $paciente->whatsapp) }}"
+                    placeholder="Ex: (88) 9 8888-8888"
+                >
+
+                @error('whatsapp')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+
+            </div>
+
+            {{-- Endereço --}}
+            <div class="mb-4">
+
+                <label for="endereco" class="form-label fw-semibold">
+                    Endereço
+                </label>
+
+                <textarea
+                    name="endereco"
+                    id="endereco"
+                    rows="3"
+                    class="form-control @error('endereco') is-invalid @enderror"
+                    placeholder="Ex: Rua das Flores, 123 - Centro"
+                >{{ old('endereco', $paciente->endereco) }}</textarea>
+
+                @error('endereco')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+
+            </div>
 
             {{-- Botões --}}
             <div class="d-flex justify-content-end gap-2">
 
                 <a
-                    href="{{ route('alunos.index') }}"
+                    href="{{ route('pacientes.index') }}"
                     class="btn btn-secondary"
                 >
                     Cancelar
@@ -163,7 +212,7 @@
     </div>
 
 </div>
-
+```
 
 </div>
 
