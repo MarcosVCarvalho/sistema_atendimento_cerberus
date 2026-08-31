@@ -6,20 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Paciente extends Model
+class TipoAtendimento extends Model
 {
     use HasFactory;
 
+    protected $table = 'tipos_atendimento';
+
     protected $fillable = [
         'nome',
-        'cpf',
-        'telefone',
-        'whatsapp',
-        'endereco',
+        'ativo',
+    ];
+
+    protected $casts = [
+        'ativo' => 'boolean',
     ];
 
     /**
-     * Um paciente pode possuir vários atendimentos.
+     * Um tipo de atendimento pode estar associado
+     * a vários atendimentos.
      */
     public function atendimentos(): HasMany
     {

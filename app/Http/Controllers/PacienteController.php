@@ -4,86 +4,186 @@ namespace App\Http\Controllers;
 
 use App\Models\Paciente;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class PacienteController extends Controller
 {
+    /**
+     * Lista e pesquisa pacientes.
+     */
     public function index(Request $request)
-{
-    $busca = $request->busca;
-
-    $pacientes = Paciente::query()
-        ->when($busca, function ($query, $busca) {
-            $query->where('nome', 'like', '%' . $busca . '%')->orWhere('cpf', 'like', '%' . $busca . '%');
-        })->get();
-
-    return view('pacientes.index', compact('pacientes'));
-}
-
-    public function create()
     {
-        return view('pacientes.create');
+        $busca = $request->input('busca');
+
+        $pacientes = Paciente::query()
+            ->when($busca, function ($query, $busca) {
+                $query->where(function ($query) use ($busca) {
+                    $query->where('nome', 'like', "%{$busca}%")
+                        ->orWhere('cpf', 'like', "%{$busca}%")
+                        ->orWhere('telefone', 'like', "%{$busca}%")
+                        ->orWhere('whatsapp', 'like', "%{$busca}%");
+                });
+            })
+            ->orderBy('nome')
+            ->paginate(15)
+            ->withQueryString();
+
+        return Inertia::render('Pacientes/Index', [
+            'pacientes' => $pacientes,
+            'filtros' => [
+                'busca' => $busca,
+            ],
+        ]);
     }
 
+    /**
+     * Exibe formulário de cadastro.
+     */
+    public function create()
+    {
+        return Inertia::render('Pacientes/Create');
+    }
+
+    /**
+     * Cadastra um novo paciente.
+     */
     public function store(Request $request)
     {
         $dados = $request->validate([
-            'nome' => 'required|string|max:255',
-            'cpf' => 'required|string|max:14|unique:pacientes,cpf',
-            'telefone' => 'nullable|string|max:100',
-            'whatsapp' => 'nullable|string|max:100',
-            'endereco' => 'nullable|string|max:255',
-        ],
-        [
-            'cpf.unique' => 'Este CPF já está cadastrado' ,
+            'nome' => ['required', 'string', 'max:255'],
+            'cpf' => ['required', 'string', 'max:14', 'unique:pacientes,cpf'],
+            'telefone' => ['nullable', 'string', 'max:20'],
+            'whatsapp' => ['nullable', 'string', 'max:20'],
+            'endereco' => ['nullable', 'string', 'max:255'],
         ]);
 
         Paciente::create($dados);
 
         return redirect()
             ->route('pacientes.index')
-            ->with('success', 'Paciente criado com sucesso!');
+            ->with('success', 'Paciente cadastrado com sucesso.');
     }
 
-    public function search(Request $request)
-    {
-        $pacientes = Paciente::where('nome','like','%' . $request->nome . '%')
-        ->orWhere('cpf', 'like', '%' . $request->nome . '%')->get();
-        return view('pacientes.index', compact('pacientes'));
-    }
-
+    /**
+     * Exibe um paciente.
+     */
     public function show(Paciente $paciente)
     {
-        return view('pacientes.show', compact('pacientes'));
+        return Inertia::render('Pacientes/Show', [
+            'paciente' => $paciente,
+        ]);
     }
 
+    /**
+     * Exibe formulário de edição.
+     */
     public function edit(Paciente $paciente)
     {
-        return view('pacientes.edit', compact('paciente'));
+        return Inertia::render('Pacientes/Edit', [
+            'paciente' => $paciente,
+        ]);
     }
 
+    /**
+     * Atualiza um paciente.
+     */
     public function update(Request $request, Paciente $paciente)
     {
-        $dados = $request->validate([
-            'nome' => 'required|string|max:255',
-            'cpf' => 'required|string|max:14|unique:pacientes,cpf,' . $paciente->id,
-            'telefone' => 'nullable|string|max:100',
-            'whatsapp' => 'nullable|string|max:100',
-            'endereco' => 'nullable|string|max:255',
-        ]);
+    $dados = $request->validate([
+        'nome' => ['required', 'string', 'max:255'],
 
-        $paciente->update($dados);
+        'cpf' => [
+            'required',
+            'string',
+            'max:14',
+            Rule::unique('pacientes', 'cpf')
+                ->ignore($paciente->id),
+        ],
 
-        return redirect()
-            ->route('pacientes.index')
-            ->with('success', 'Paciente atualizado com sucesso!');
+        'telefone' => ['nullable', 'string', 'max:20'],
+        'whatsapp' => ['nullable', 'string', 'max:20'],
+        'endereco' => ['nullable', 'string', 'max:255'],
+    ]);
+
+    $paciente->update($dados);
+
+    return redirect()
+        ->route('pacientes.ficha', $paciente)
+        ->with('success', 'Paciente atualizado com sucesso.');
     }
 
+    /**
+     * Remove um paciente.
+     */
     public function destroy(Paciente $paciente)
     {
         $paciente->delete();
 
         return redirect()
             ->route('pacientes.index')
-            ->with('success', 'Paciente excluído com sucesso!');
+            ->with('success', 'Paciente removido com sucesso.');
+    }
+
+    /**
+     * Exibe a ficha completa do paciente.
+     */
+    public function ficha(Paciente $paciente)
+    {
+    $paciente->load([
+        'atendimentos' => function ($query) {
+            $query->with([
+                'tipoAtendimento',
+                'usuario',
+            ])
+            ->orderByDesc('data_hora');
+        },
+    ]);
+
+    return Inertia::render('Pacientes/Ficha', [
+        'paciente' => $paciente,
+        'historico' => $paciente->atendimentos,
+    ]);
+    }
+
+    /**
+     * Pesquisa rápida de pacientes.
+     */
+    public function buscar(Request $request)
+    {
+        $dados = $request->validate([
+            'q' => [
+                'required',
+                'string',
+                'min:2',
+            ],
+        ]);
+
+        $busca = $dados['q'];
+
+        $pacientes = Paciente::query()
+            ->where(function ($query) use ($busca) {
+                $query->where('id', 'like', "%{$busca}%")
+                    ->orWhere('nome', 'like', "%{$busca}%")
+                    ->orWhere('cpf', 'like', "%{$busca}%")
+                    ->orWhere('telefone', 'like', "%{$busca}%")
+                    ->orWhere('whatsapp', 'like', "%{$busca}%");
+            })
+            ->orderBy('nome')
+            ->limit(20)
+            ->get([
+                'id',
+                'nome',
+                'cpf',
+                'telefone',
+                'whatsapp',
+                'endereco',
+            ]);
+
+        return Inertia::render('Pacientes/Busca', [
+            'resultados' => $pacientes,
+            'total' => $pacientes->count(),
+            'busca' => $busca,
+        ]);
     }
 }

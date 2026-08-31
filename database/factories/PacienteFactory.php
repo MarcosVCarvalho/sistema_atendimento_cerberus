@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Product>
+ * @extends Factory<Paciente>
  */
-class ProductFactory extends Factory
+class PacienteFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class ProductFactory extends Factory
     {
         return [
             'nome' => $this->faker->name(),
-            'cpf' => $this->faker->unique()->cpf(),
+            'cpf' => $this->faker->unique()->numerify('###.###.###-##'),
             'telefone' => $this->faker->phoneNumber(),
             'whatsapp' => $this->faker->phoneNumber(),
             'endereco' => $this->faker->address(),

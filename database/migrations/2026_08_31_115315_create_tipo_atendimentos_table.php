@@ -8,14 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pacientes', function (Blueprint $table) {
+        Schema::create('tipos_atendimento', function (Blueprint $table) {
             $table->id();
 
             $table->string('nome');
-            $table->string('cpf', 14)->unique()->nullable();
-            $table->string('telefone', 20)->nullable();
-            $table->string('whatsapp', 20)->nullable();
-            $table->string('endereco')->nullable();
+            $table->boolean('ativo')->default(true);
 
             $table->timestamps();
         });
@@ -23,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('pacientes');
+        Schema::dropIfExists('tipos_atendimento');
     }
 };
