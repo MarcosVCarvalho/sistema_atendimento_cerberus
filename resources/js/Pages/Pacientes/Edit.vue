@@ -1,7 +1,7 @@
 <script setup>
 
 import { useForm, router } from '@inertiajs/vue3'
-import Navbar from '../../Components/Navbar.vue'
+import AppLayout from '/resources/js/Layout/AppLayout.vue'
 
 const props = defineProps({
     paciente: {
@@ -34,7 +34,7 @@ function voltar() {
 
 <template>
 
-    <Navbar />
+    <AppLayout>
 
     <div class="min-h-screen bg-slate-50 p-6">
 
@@ -299,5 +299,6 @@ function voltar() {
         </div>
 
     </div>
+    </AppLayout>
 
 </template>

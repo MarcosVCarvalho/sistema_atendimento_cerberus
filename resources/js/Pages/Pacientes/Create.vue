@@ -2,7 +2,7 @@
 
 import { reactive, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import Navbar from '../../Components/Navbar.vue'
+import AppLayout from '/resources/js/Layout/AppLayout.vue'
 
 const form = reactive({
     nome: '',
@@ -45,7 +45,7 @@ const voltar = () => {
 
 <template>
 
-    <Navbar />
+    <AppLayout>
 
     <div class="min-h-screen bg-slate-50 p-6">
 
@@ -268,5 +268,6 @@ const voltar = () => {
         </div>
 
     </div>
+    </AppLayout>
 
 </template>
