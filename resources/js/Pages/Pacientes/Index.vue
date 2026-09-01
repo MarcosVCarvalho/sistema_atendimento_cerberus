@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import {formatarCpf,formatarTelefone} from '/resources/js/Utils/formacoes.js'
 import { router, Link } from '@inertiajs/vue3'
 import AppLayout from '/resources/js/Layout/AppLayout.vue'
 
@@ -53,7 +54,10 @@ function excluir(id) {
     router.delete(`/pacientes/${id}`, {
         preserveScroll: true,
     })
-}
+ }
+
+
+
 </script>
 
 <template>
@@ -224,7 +228,7 @@ function excluir(id) {
                             <td class="px-5 py-4">
 
                                 <span class="text-sm text-slate-600">
-                                    {{ paciente.cpf }}
+                                    {{ formatarCpf(paciente.cpf) }}
                                 </span>
 
                             </td>
@@ -237,7 +241,7 @@ function excluir(id) {
                                 <span
                                     class="text-sm text-slate-600"
                                 >
-                                    {{ paciente.telefone || '-' }}
+                                    {{ formatarTelefone(paciente.telefone) || '-' }}
                                 </span>
 
                             </td>
@@ -250,7 +254,7 @@ function excluir(id) {
                                 <span
                                     class="text-sm text-slate-600"
                                 >
-                                    {{ paciente.whatsapp || '-' }}
+                                    {{ formatarTelefone(paciente.whatsapp) || '-' }}
                                 </span>
 
                             </td>
@@ -266,9 +270,9 @@ function excluir(id) {
 
                                     <Link
                                         :href="`/pacientes/${paciente.id}/ficha`"
-                                        class="btn btn-sm btn-ghost text-slate-600 hover:bg-slate-100"
+                                        class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-200"
                                     >
-                                        Ficha
+                                        Histórico 
                                     </Link>
 
 
@@ -276,7 +280,7 @@ function excluir(id) {
 
                                     <Link
                                         :href="`/pacientes/${paciente.id}/edit`"
-                                        class="btn btn-sm btn-ghost text-slate-600 hover:bg-slate-100"
+                                        class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-200"
                                     >
                                         Editar
                                     </Link>
@@ -287,7 +291,7 @@ function excluir(id) {
                                     <button
                                         type="button"
                                         @click="excluir(paciente.id)"
-                                        class="btn btn-sm btn-ghost text-error hover:bg-red-50"
+                                        class="btn btn-sm btn-ghost text-error hover:bg-red-100"
                                     >
                                         Excluir
                                     </button>

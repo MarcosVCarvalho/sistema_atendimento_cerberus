@@ -224,7 +224,7 @@ function excluir(id) {
 
                             <Link
                                 :href="`/tipos-atendimento/${tipo.id}`"
-                                class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-100"
+                                class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-200 order-slate-300"
                             >
                                 Ver
                             </Link>
@@ -234,7 +234,7 @@ function excluir(id) {
 
                             <Link
                                 :href="`/tipos-atendimento/${tipo.id}/edit`"
-                                class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-100"
+                                class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-200 order-slate-300"
                             >
                                 Editar
                             </Link>
@@ -244,7 +244,7 @@ function excluir(id) {
 
                             <button
                                 @click="excluir(tipo.id)"
-                                class="btn btn-sm btn-ghost text-error hover:bg-red-200"
+                                class="btn btn-sm btn-ghost text-error hover:bg-red-200 order-slate-300"
                             >
                                 Excluir
                             </button>

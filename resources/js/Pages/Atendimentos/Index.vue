@@ -255,7 +255,7 @@ const formatarDataHora = (data) => {
 
                                         <Link
                                             :href="`/atendimentos/${atendimento.id}`"
-                                            class="btn btn-sm btn-outline border-slate-300 text-slate-600 hover:bg-slate-100"
+                                            class="btn btn-sm btn-outline border-slate-300 text-slate-900 hover:bg-slate-200"
                                         >
                                             Ver
                                         </Link>
@@ -265,7 +265,7 @@ const formatarDataHora = (data) => {
 
                                         <Link
                                             :href="`/atendimentos/${atendimento.id}/edit`"
-                                            class="btn btn-sm btn-outline border-slate-300 text-slate-600 hover:bg-slate-100"
+                                            class="btn btn-sm btn-outline border-slate-300 text-slate-900 hover:bg-slate-200 "
                                         >
                                             Editar
                                         </Link>
@@ -276,7 +276,7 @@ const formatarDataHora = (data) => {
                                         <button
                                             type="button"
                                             @click="excluir(atendimento.id)"
-                                            class="btn btn-sm btn-ghost text-error hover:bg-red-50"
+                                            class="btn btn-sm btn-ghost text-error hover:bg-red-200"
                                         >
                                             Excluir
                                         </button>

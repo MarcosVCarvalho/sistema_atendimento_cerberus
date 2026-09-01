@@ -3,6 +3,7 @@
 import { reactive, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import AppLayout from '/resources/js/Layout/AppLayout.vue'
+import {formatarCpf,formatarTelefone} from '/resources/js/Utils/formacoes.js'
 
 const form = reactive({
     nome: '',
@@ -40,6 +41,7 @@ const cadastrar = () => {
 const voltar = () => {
     router.visit('/pacientes')
 }
+
 
 </script>
 
@@ -103,7 +105,7 @@ const voltar = () => {
                                 class="label"
                             >
                                 <span class="label-text-alt text-error">
-                                    {{ erros.nome[0] }}
+                                    {{ erros.nome }}
                                 </span>
                             </label>
 
@@ -119,10 +121,12 @@ const voltar = () => {
                             </label>
 
                             <input
-                                v-model="form.cpf"
+                                :value="form.cpf"
+                                @input="form.cpf = formatarCpf($event.target.value)"
                                 type="text"
                                 placeholder="000.000.000-00"
                                 maxlength="14"
+                                inputmode="numeric"
                                 class="input input-bordered w-full"
                                 :class="{ 'input-error': erros.cpf }"
                             />
@@ -132,7 +136,7 @@ const voltar = () => {
                                 class="label"
                             >
                                 <span class="label-text-alt text-error">
-                                    {{ erros.cpf[0] }}
+                                    {{ erros.cpf }}
                                 </span>
                             </label>
 
@@ -151,9 +155,12 @@ const voltar = () => {
                                 </label>
 
                                 <input
-                                    v-model="form.telefone"
+                                    :value="form.telefone"
+                                    @input="form.telefone = formatarTelefone($event.target.value)"
                                     type="text"
                                     placeholder="(86) 3333-4444"
+                                    maxlength="15"
+                                    inputmode="numeric"
                                     class="input input-bordered w-full"
                                     :class="{ 'input-error': erros.telefone }"
                                 />
@@ -163,7 +170,7 @@ const voltar = () => {
                                     class="label"
                                 >
                                     <span class="label-text-alt text-error">
-                                        {{ erros.telefone[0] }}
+                                        {{ erros.telefone }}
                                     </span>
                                 </label>
 
@@ -179,9 +186,12 @@ const voltar = () => {
                                 </label>
 
                                 <input
-                                    v-model="form.whatsapp"
+                                    :value="form.whatsapp"
+                                    @input="form.whatsapp = formatarTelefone($event.target.value)"
                                     type="text"
                                     placeholder="(86) 99999-8888"
+                                    maxlength="15"
+                                    inputmode="numeric"
                                     class="input input-bordered w-full"
                                     :class="{ 'input-error': erros.whatsapp }"
                                 />
@@ -191,7 +201,7 @@ const voltar = () => {
                                     class="label"
                                 >
                                     <span class="label-text-alt text-error">
-                                        {{ erros.whatsapp[0] }}
+                                        {{ erros.whatsapp }}
                                     </span>
                                 </label>
 
@@ -221,7 +231,7 @@ const voltar = () => {
                                 class="label"
                             >
                                 <span class="label-text-alt text-error">
-                                    {{ erros.endereco[0] }}
+                                    {{ erros.endereco }}
                                 </span>
                             </label>
 

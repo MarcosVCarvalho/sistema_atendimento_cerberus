@@ -1,6 +1,7 @@
 <script setup>
 import { router } from '@inertiajs/vue3'
 import AppLayout from '/resources/js/Layout/AppLayout.vue'
+import {formatarCpf,formatarTelefone} from '/resources/js/Utils/formacoes.js'
 
 const props = defineProps({
     paciente: {
@@ -39,7 +40,7 @@ function editar() {
                         </p>
 
                         <h1 class="mt-1 text-3xl font-bold text-slate-900">
-                            Ficha do Paciente #{{ props.paciente.id }}
+                            Histórico do Paciente #{{ props.paciente.id }}
                         </h1>
 
                         <p class="text-slate-500 mt-1">
@@ -117,7 +118,7 @@ function editar() {
                                 </p>
 
                                 <p class="text-sm font-medium text-slate-800 mt-1">
-                                    {{ props.paciente.cpf || 'Não informado' }}
+                                    {{ props.paciente.cpf? formatarCpf(props.paciente.cpf): 'Não informado' }}
                                 </p>
 
                             </div>
@@ -132,7 +133,7 @@ function editar() {
                                 </p>
 
                                 <p class="text-sm font-medium text-slate-800 mt-1">
-                                    {{ props.paciente.telefone || 'Não informado' }}
+                                    {{ props.paciente.telefone? formatarTelefone(props.paciente.telefone): 'Não informado' }}
                                 </p>
 
                             </div>
@@ -147,7 +148,7 @@ function editar() {
                                 </p>
 
                                 <p class="text-sm font-medium text-slate-800 mt-1">
-                                    {{ props.paciente.whatsapp || 'Não informado' }}
+                                    {{ props.paciente.whatsapp? formatarTelefone(props.paciente.whatsapp): 'Não informado' }}
                                 </p>
 
                             </div>

@@ -1,29 +1,40 @@
 <script setup>
 
-import { useForm, router } from '@inertiajs/vue3'
+import { reactive, ref } from 'vue'
+import { router } from '@inertiajs/vue3'
 import AppLayout from '/resources/js/Layout/AppLayout.vue'
+import {formatarCpf,formatarTelefone} from '/resources/js/Utils/formacoes.js'
 
 const props = defineProps({
-    paciente: {
-        type: Object,
-        required: true,
-    },
+    paciente: Object,
 })
 
-const form = useForm({
+const form = reactive({
     nome: props.paciente.nome ?? '',
-    cpf: props.paciente.cpf ?? '',
-    telefone: props.paciente.telefone ?? '',
-    whatsapp: props.paciente.whatsapp ?? '',
+    cpf: formatarCpf(props.paciente.cpf),
+    telefone: formatarTelefone(props.paciente.telefone),
+    whatsapp: formatarTelefone(props.paciente.whatsapp),
     endereco: props.paciente.endereco ?? '',
 })
 
+const erros = ref({})
+const carregando = ref(false)
+
 function atualizar() {
+    carregando.value = true
+    erros.value = {}
 
-    form.put(`/pacientes/${props.paciente.id}`, {
+    router.put(`/pacientes/${props.paciente.id}`, form, {
         preserveScroll: true,
-    })
 
+        onError: (errors) => {
+            erros.value = errors
+        },
+
+        onFinish: () => {
+            carregando.value = false
+        },
+    })
 }
 
 function voltar() {
@@ -98,19 +109,17 @@ function voltar() {
                                 placeholder="Nome completo"
                                 class="input input-bordered w-full"
                                 :class="{
-                                    'input-error': form.errors.nome
+                                    'input-error': erros.nome
                                 }"
                             />
 
                             <label
-                                v-if="form.errors.nome"
+                                v-if="erros.nome"
                                 class="label"
                             >
-
                                 <span class="label-text-alt text-error">
-                                    {{ form.errors.nome }}
+                                    {{ erros.nome }}
                                 </span>
-
                             </label>
 
                         </div>
@@ -127,25 +136,20 @@ function voltar() {
                             </label>
 
                             <input
-                                v-model="form.cpf"
+                                :value="form.cpf"
+                                @input="form.cpf = formatarCpf($event.target.value)"
                                 type="text"
                                 placeholder="000.000.000-00"
                                 maxlength="14"
+                                inputmode="numeric"
                                 class="input input-bordered w-full"
-                                :class="{
-                                    'input-error': form.errors.cpf
-                                }"
+                                :class="{ 'input-error': erros.cpf }"
                             />
 
-                            <label
-                                v-if="form.errors.cpf"
-                                class="label"
-                            >
-
+                            <label v-if="erros.cpf" class="label">
                                 <span class="label-text-alt text-error">
-                                    {{ form.errors.cpf }}
+                                    {{ erros.cpf }}
                                 </span>
-
                             </label>
 
                         </div>
@@ -165,24 +169,20 @@ function voltar() {
                                 </label>
 
                                 <input
-                                    v-model="form.telefone"
+                                    :value="form.telefone"
+                                    @input="form.telefone = formatarTelefone($event.target.value)"
                                     type="text"
                                     placeholder="(86) 3333-4444"
+                                    maxlength="15"
+                                    inputmode="numeric"
                                     class="input input-bordered w-full"
-                                    :class="{
-                                        'input-error': form.errors.telefone
-                                    }"
+                                    :class="{ 'input-error': erros.telefone }"
                                 />
 
-                                <label
-                                    v-if="form.errors.telefone"
-                                    class="label"
-                                >
-
+                                <label v-if="erros.telefone" class="label">
                                     <span class="label-text-alt text-error">
-                                        {{ form.errors.telefone }}
+                                        {{ erros.telefone }}
                                     </span>
-
                                 </label>
 
                             </div>
@@ -199,24 +199,20 @@ function voltar() {
                                 </label>
 
                                 <input
-                                    v-model="form.whatsapp"
+                                    :value="form.whatsapp"
+                                    @input="form.whatsapp = formatarTelefone($event.target.value)"
                                     type="text"
                                     placeholder="(86) 99999-8888"
+                                    maxlength="15"
+                                    inputmode="numeric"
                                     class="input input-bordered w-full"
-                                    :class="{
-                                        'input-error': form.errors.whatsapp
-                                    }"
+                                    :class="{ 'input-error': erros.whatsapp }"
                                 />
 
-                                <label
-                                    v-if="form.errors.whatsapp"
-                                    class="label"
-                                >
-
+                                <label v-if="erros.whatsapp" class="label">
                                     <span class="label-text-alt text-error">
-                                        {{ form.errors.whatsapp }}
+                                        {{ erros.whatsapp }}
                                     </span>
-
                                 </label>
 
                             </div>
@@ -240,17 +236,17 @@ function voltar() {
                                 placeholder="Rua, número, bairro..."
                                 class="input input-bordered w-full"
                                 :class="{
-                                    'input-error': form.errors.endereco
+                                    'input-error': erros.endereco
                                 }"
                             />
 
                             <label
-                                v-if="form.errors.endereco"
+                                v-if="erros.endereco"
                                 class="label"
                             >
 
                                 <span class="label-text-alt text-error">
-                                    {{ form.errors.endereco }}
+                                    {{ erros.endereco }}
                                 </span>
 
                             </label>
@@ -267,7 +263,7 @@ function voltar() {
                                 type="button"
                                 @click="voltar"
                                 class="btn btn-ghost"
-                                :disabled="form.processing"
+                                :disabled="carregando"
                             >
                                 Cancelar
                             </button>
@@ -275,20 +271,18 @@ function voltar() {
                             <button
                                 type="submit"
                                 class="btn btn-primary"
-                                :disabled="form.processing"
+                                :disabled="carregando"
                             >
-
                                 <span
-                                    v-if="form.processing"
+                                    v-if="carregando"
                                     class="loading loading-spinner loading-sm"
                                 ></span>
 
                                 {{
-                                    form.processing
+                                    carregando
                                         ? 'Salvando...'
                                         : 'Salvar alterações'
                                 }}
-
                             </button>
 
                         </div>
