@@ -14,6 +14,7 @@ class TipoAtendimento extends Model
 
     protected $fillable = [
         'nome',
+        'descricao',
         'ativo',
     ];
 

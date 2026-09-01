@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('nome');
-            $table->boolean('ativo')->default(true);
+            $table->text('descricao')->nullable();
 
             $table->timestamps();
         });

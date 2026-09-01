@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '../Layout/AppLayout.vue'
+import { router, Link } from '@inertiajs/vue3'
 
 defineProps({
     estatisticas: {
@@ -196,17 +197,24 @@ defineProps({
                 <div class="mt-6 space-y-3">
 
                     <Link
-                        href="/pacientes/novo"
+                        href="/pacientes/create"
                         class="flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
                     >
                         + Novo paciente
                     </Link>
 
                     <Link
-                        href="/atendimentos/novo"
+                        href="/atendimentos/create"
                         class="flex w-full items-center justify-center rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                     >
                         + Novo atendimento
+                    </Link>
+
+                    <Link
+                        href="/tipos-atendimento/create"
+                        class="flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                    >    
+                        + Novo tipo de atendimento
                     </Link>
 
                 </div>

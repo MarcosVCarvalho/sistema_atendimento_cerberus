@@ -1,6 +1,6 @@
 <script setup>
 
-import { router } from '@inertiajs/vue3'
+import { router, Link } from '@inertiajs/vue3'
 import AppLayout from '/resources/js/Layout/AppLayout.vue'
 
 const props = defineProps({
@@ -39,46 +39,44 @@ function excluir(id) {
 
     <AppLayout>
 
+        <div class="min-h-screen bg-slate-50 p-6">
+
         <div class="max-w-7xl mx-auto">
 
             <!-- Cabeçalho da página -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8"
+            >
 
                 <div>
 
-                    <div class="flex items-center gap-2 text-sm text-slate-500 mb-2">
-                        <span>Configurações</span>
+                    <p class="text-sm font-medium text-indigo-600">
+                        Gestão de Tipos de atendimentos
+                    </p>
 
-                        <span>/</span>
-
-                        <span class="text-slate-700">
-                            Tipos de atendimento
-                        </span>
-                    </div>
-
-                    <h1 class="text-3xl font-bold text-slate-800">
-                        Tipos de Atendimento
+                    <h1 class="mt-1 text-3xl font-bold text-slate-900">
+                        Tipos de Atendimentos
                     </h1>
 
-                    <p class="text-slate-500 mt-1">
-                        Gerencie os tipos de atendimento utilizados no sistema.
+                    <p class="mt-2 text-slate-500">
+                        Consulte e gerencie os tipos de atendimentos registrados no sistema.
                     </p>
 
                 </div>
 
-                <button
-                    @click="novoTipo"
-                    class="btn btn-primary shadow-sm"
+                <Link
+                    href="/tipos-atendimento/create"
+                    class="btn btn-primary"
                 >
-                    <span class="text-lg">+</span>
-                    Novo tipo
-                </button>
+                    + Novo tipo
+                </Link>
 
             </div>
 
 
             <!-- Resumo -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <div class="w-full mb-6">
 
                 <!-- Total -->
                 <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
@@ -99,32 +97,6 @@ function excluir(id) {
 
                         <div class="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xl">
                             ☰
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Status -->
-                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
-
-                    <div class="flex items-center justify-between">
-
-                        <div>
-
-                            <p class="text-sm font-medium text-slate-500">
-                                Status
-                            </p>
-
-                            <p class="text-lg font-bold text-slate-800 mt-1">
-                                Ativo
-                            </p>
-
-                        </div>
-
-                        <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
-                            ✓
                         </div>
 
                     </div>
@@ -163,154 +135,177 @@ function excluir(id) {
                 </div>
 
 
-                <!-- Conteúdo -->
-                <div class="overflow-x-auto">
-
-                    <table class="table">
-
-                        <thead>
-
-                            <tr class="bg-slate-50">
-
-                                <th class="text-slate-500 font-semibold">
-                                    ID
-                                </th>
-
-                                <th class="text-slate-500 font-semibold">
-                                    Tipo de atendimento
-                                </th>
-
-                                <th class="text-slate-500 font-semibold text-right">
-                                    Ações
-                                </th>
-
-                            </tr>
-
-                        </thead>
+            <!-- Conteúdo -->
+            <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
 
 
-                        <tbody>
+            <table class="table w-full">
 
-                            <!-- Registros -->
-                            <tr
-                                v-for="tipo in props.tipos"
-                                :key="tipo.id"
-                                class="hover:bg-slate-50 transition-colors"
+                <thead>
+
+                    <tr class="bg-slate-50 border-b border-slate-200">
+
+                        <th class="px-6 py-4 text-slate-500 font-semibold text-sm">
+                            ID
+                        </th>
+
+                        <th class="px-6 py-4 text-slate-500 font-semibold text-sm">
+                            Tipo de atendimento
+                        </th>
+
+                        <th class="px-6 py-4 text-slate-500 font-semibold text-sm">
+                            Descrição
+                        </th>
+
+                        <th class="px-6 py-4 text-slate-500 font-semibold text-sm text-right">
+                            Ações
+                        </th>
+
+                    </tr>
+
+                </thead>
+            <tbody>
+
+                <!-- Registros -->
+
+                <tr
+                    v-for="tipo in props.tipos"
+                    :key="tipo.id"
+                    class="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                >
+
+                    <!-- ID -->
+
+                    <td class="px-5 py-4 w-24 text-slate-500 font-medium">
+                        #{{ tipo.id }}
+                    </td>
+
+
+                    <!-- Tipo -->
+
+                    <td class="px-5 py-4">
+
+                        <div class="flex items-center gap-3">
+
+                            <div
+                                class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold shrink-0"
                             >
+                                {{ tipo.nome.charAt(0).toUpperCase() }}
+                            </div>
 
-                                <td class="text-slate-500">
-                                    #{{ tipo.id }}
-                                </td>
+                            <div>
 
-                                <td>
+                                <p class="font-semibold text-slate-800">
+                                    {{ tipo.nome }}
+                                </p>
 
-                                    <div class="flex items-center gap-3">
+                                <p class="text-xs text-slate-400 mt-0.5">
+                                    Tipo de atendimento
+                                </p>
 
-                                        <div
-                                            class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold"
-                                        >
-                                            {{ tipo.nome.charAt(0).toUpperCase() }}
-                                        </div>
+                            </div>
 
-                                        <div>
+                        </div>
 
-                                            <p class="font-semibold text-slate-800">
-                                                {{ tipo.nome }}
-                                            </p>
+                    </td>
 
-                                            <p class="text-xs text-slate-500">
-                                                Tipo de atendimento
-                                            </p>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-                                <td>
-
-                                    <div class="flex justify-end gap-2">
-
-                                        <!-- Visualizar -->
-                                        <button
-                                            @click="verTipo(tipo.id)"
-                                            class="btn btn-sm btn-ghost text-slate-600"
-                                            title="Visualizar"
-                                        >
-                                            Ver
-                                        </button>
-
-                                        <!-- Editar -->
-                                        <button
-                                            @click="editar(tipo.id)"
-                                            class="btn btn-sm btn-outline"
-                                        >
-                                            Editar
-                                        </button>
-
-                                        <!-- Excluir -->
-                                        <button
-                                            @click="excluir(tipo.id)"
-                                            class="btn btn-sm btn-ghost text-error"
-                                        >
-                                            Excluir
-                                        </button>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
+                    <td class="px-5 py-4 w-24 text-slate-1200 font-medium">
+                        {{ tipo.descricao }}
+                    </td>
 
 
-                            <!-- Nenhum registro -->
-                            <tr v-if="props.tipos.length === 0">
+                    <!-- Ações -->
 
-                                <td
-                                    colspan="3"
-                                    class="py-16"
-                                >
+                    <td class="px-5 py-4 w-64">
 
-                                    <div class="flex flex-col items-center justify-center text-center">
+                        <div class="flex justify-end items-center gap-1">
 
-                                        <div
-                                            class="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl mb-4"
-                                        >
-                                            ☰
-                                        </div>
+                            <!-- Visualizar -->
 
-                                        <h3 class="text-lg font-bold text-slate-800">
-                                            Nenhum tipo cadastrado
-                                        </h3>
+                            <Link
+                                :href="`/tipos-atendimento/${tipo.id}`"
+                                class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-100"
+                            >
+                                Ver
+                            </Link>
 
-                                        <p class="text-sm text-slate-500 mt-1 max-w-md">
-                                            Você ainda não possui tipos de atendimento cadastrados.
-                                            Crie um para começar a utilizar o sistema.
-                                        </p>
 
-                                        <button
-                                            @click="novoTipo"
-                                            class="btn btn-primary btn-sm mt-5"
-                                        >
-                                            + Cadastrar primeiro tipo
-                                        </button>
+                            <!-- Editar -->
 
-                                    </div>
+                            <Link
+                                :href="`/tipos-atendimento/${tipo.id}/edit`"
+                                class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-100"
+                            >
+                                Editar
+                            </Link>
 
-                                </td>
 
-                            </tr>
+                            <!-- Excluir -->
 
-                        </tbody>
+                            <button
+                                @click="excluir(tipo.id)"
+                                class="btn btn-sm btn-ghost text-error hover:bg-red-200"
+                            >
+                                Excluir
+                            </button>
 
-                    </table>
+                        </div>
 
-                </div>
+                    </td>
 
+                </tr>
+
+
+                <!-- Nenhum registro -->
+
+                <tr v-if="props.tipos.length === 0">
+
+                    <td
+                        colspan="3"
+                        class="px-6 py-16"
+                    >
+
+                        <div class="flex flex-col items-center justify-center text-center">
+
+                            <div
+                                class="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl mb-4"
+                            >
+                                ☰
+                            </div>
+
+                            <h3 class="text-lg font-bold text-slate-800">
+                                Nenhum tipo cadastrado
+                            </h3>
+
+                            <p class="text-sm text-slate-500 mt-1 max-w-md">
+                                Você ainda não possui tipos de atendimento cadastrados.
+                                Crie um para começar a utilizar o sistema.
+                            </p>
+
+                            <Link
+                                href="/tipos-atendimento/create"
+                                class="btn btn-primary btn-sm mt-5"
+                            >
+                                + Cadastrar primeiro tipo
+                            </Link>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+                
+
+            </table>
+            </div>
             </div>
 
         </div>
+    </div>
+
+
 
     </AppLayout>
 

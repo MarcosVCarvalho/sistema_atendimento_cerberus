@@ -41,6 +41,11 @@ class TipoAtendimentoController extends Controller
                 'max:255',
                 'unique:tipos_atendimento,nome',
             ],
+            'descricao' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
         ]);
 
         TipoAtendimento::create($dados);
@@ -83,6 +88,11 @@ class TipoAtendimentoController extends Controller
                 'string',
                 'max:255',
                 'unique:tipos_atendimento,nome,' . $tipoAtendimento->id,
+            ],
+            'descricao' => [
+                'nullable',
+                'string',
+                'max:255',
             ],
         ]);
 

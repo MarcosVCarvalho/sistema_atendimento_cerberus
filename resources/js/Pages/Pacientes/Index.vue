@@ -58,19 +58,27 @@ function excluir(id) {
 
 <template>
     <AppLayout>
-        <div class="space-y-6">
+        <div class="min-h-screen bg-slate-50 p-6">
+            <div class="max-w-7xl mx-auto">
 
             <!-- Cabeçalho -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
 
                 <div>
-                    <h1 class="text-3xl font-bold text-slate-800">
+
+                    <p class="text-sm font-medium text-indigo-600">
+                        Gestão de pacientes
+                    </p>
+
+                    <h1 class="mt-1 text-3xl font-bold text-slate-900">
                         Pacientes
                     </h1>
 
-                    <p class="text-slate-500 mt-1">
-                        Gerenciamento de pacientes cadastrados
+                    <p class="mt-2 text-slate-500">
+                        Consulte e gerencie os pacientes registrados no sistema.
                     </p>
+
                 </div>
 
                 <Link
@@ -121,23 +129,21 @@ function excluir(id) {
             </div>
 
 
-            <!-- Tabela -->
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <!-- Card da tabela -->
+            <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
                 <!-- Cabeçalho da tabela -->
                 <div class="px-6 py-4 border-b border-slate-200">
 
-                    <div class="flex items-center justify-between">
+                    <div>
 
-                        <div>
-                            <h2 class="font-semibold text-slate-800">
-                                Pacientes cadastrados
-                            </h2>
+                        <h2 class="font-semibold text-slate-900">
+                            Pacientes cadastrados
+                        </h2>
 
-                            <p class="text-sm text-slate-500 mt-1">
-                                {{ pacientes.total }} paciente(s)
-                            </p>
-                        </div>
+                        <p class="mt-1 text-sm text-slate-500">
+                            {{ pacientes.total }} paciente(s) registrado(s)
+                        </p>
 
                     </div>
 
@@ -150,16 +156,14 @@ function excluir(id) {
                     <table class="table w-full">
 
                         <thead>
-                            <tr class="text-slate-500">
+                            <tr class="bg-slate-50 border-b border-slate-200">
 
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>CPF</th>
-                                <th>Telefone</th>
-                                <th>WhatsApp</th>
-                                <th class="text-right">
-                                    Ações
-                                </th>
+                                <th class="px-6 py-4 text-slate-500 font-semibold text-sm">ID</th>
+                                <th class="px-6 py-4 text-slate-500 font-semibold text-sm">Nome</th>
+                                <th class="px-6 py-4 text-slate-500 font-semibold text-sm">CPF</th>
+                                <th class="px-6 py-4 text-slate-500 font-semibold text-sm">Telefone</th>
+                                <th class="px-6 py-4 text-slate-500 font-semibold text-sm">WhatsApp</th>
+                                <th class="px-6 py-4 text-slate-500 font-semibold text-sm text-right">Ações</th>
 
                             </tr>
                         </thead>
@@ -167,104 +171,171 @@ function excluir(id) {
 
                         <tbody>
 
-                            <tr
-                                v-for="paciente in pacientes.data"
-                                :key="paciente.id"
-                                class="hover:bg-slate-50"
+                        <!-- Registros -->
+
+                        <tr
+                            v-for="paciente in pacientes.data"
+                            :key="paciente.id"
+                            class="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                        >
+
+                            <!-- ID -->
+
+                            <td class="px-5 py-4 w-24 text-slate-500 font-medium">
+                                #{{ paciente.id }}
+                            </td>
+
+
+                            <!-- Paciente -->
+
+                            <td class="px-5 py-4">
+
+                                <div class="flex items-center gap-3">
+
+                                    <!-- Inicial -->
+
+                                    <div
+                                        class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold shrink-0"
+                                    >
+                                        {{ paciente.nome.charAt(0).toUpperCase() }}
+                                    </div>
+
+                                    <!-- Informações -->
+
+                                    <div>
+
+                                        <p class="font-semibold text-slate-800">
+                                            {{ paciente.nome }}
+                                        </p>
+
+                                        <p class="text-xs text-slate-400 mt-0.5">
+                                            Paciente
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- CPF -->
+
+                            <td class="px-5 py-4">
+
+                                <span class="text-sm text-slate-600">
+                                    {{ paciente.cpf }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Telefone -->
+
+                            <td class="px-5 py-4">
+
+                                <span
+                                    class="text-sm text-slate-600"
+                                >
+                                    {{ paciente.telefone || '-' }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- WhatsApp -->
+
+                            <td class="px-5 py-4">
+
+                                <span
+                                    class="text-sm text-slate-600"
+                                >
+                                    {{ paciente.whatsapp || '-' }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Ações -->
+
+                            <td class="px-5 py-4 w-64">
+
+                                <div class="flex justify-end items-center gap-1">
+
+                                    <!-- Ficha -->
+
+                                    <Link
+                                        :href="`/pacientes/${paciente.id}/ficha`"
+                                        class="btn btn-sm btn-ghost text-slate-600 hover:bg-slate-100"
+                                    >
+                                        Ficha
+                                    </Link>
+
+
+                                    <!-- Editar -->
+
+                                    <Link
+                                        :href="`/pacientes/${paciente.id}/edit`"
+                                        class="btn btn-sm btn-ghost text-slate-600 hover:bg-slate-100"
+                                    >
+                                        Editar
+                                    </Link>
+
+
+                                    <!-- Excluir -->
+
+                                    <button
+                                        type="button"
+                                        @click="excluir(paciente.id)"
+                                        class="btn btn-sm btn-ghost text-error hover:bg-red-50"
+                                    >
+                                        Excluir
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- Nenhum paciente -->
+
+                        <tr v-if="pacientes.data.length === 0">
+
+                            <td
+                                colspan="6"
+                                class="px-6 py-16"
                             >
 
-                                <td>
-                                    <span class="text-slate-500">
-                                        #{{ paciente.id }}
-                                    </span>
-                                </td>
+                                <div class="flex flex-col items-center justify-center text-center">
 
-
-                                <td>
-                                    <div class="font-semibold text-slate-800">
-                                        {{ paciente.nome }}
-                                    </div>
-                                </td>
-
-
-                                <td>
-                                    {{ paciente.cpf }}
-                                </td>
-
-
-                                <td>
-                                    {{ paciente.telefone || '-' }}
-                                </td>
-
-
-                                <td>
-                                    {{ paciente.whatsapp || '-' }}
-                                </td>
-
-
-                                <!-- Ações -->
-                                <td>
-
-                                    <div class="flex justify-end gap-2">
-
-                                        <Link
-                                            :href="`/pacientes/${paciente.id}/ficha`"
-                                            class="btn btn-sm btn-outline"
-                                        >
-                                            Ficha
-                                        </Link>
-
-
-                                        <Link
-                                            :href="`/pacientes/${paciente.id}/edit`"
-                                            class="btn btn-sm btn-outline"
-                                        >
-                                            Editar
-                                        </Link>
-
-
-                                        <button
-                                            type="button"
-                                            @click="excluir(paciente.id)"
-                                            class="btn btn-sm btn-error btn-outline"
-                                        >
-                                            Excluir
-                                        </button>
-
+                                    <div
+                                        class="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl mb-4"
+                                    >
+                                        👤
                                     </div>
 
-                                </td>
+                                    <h3 class="text-lg font-bold text-slate-800">
+                                        Nenhum paciente encontrado
+                                    </h3>
 
-                            </tr>
+                                    <p class="text-sm text-slate-500 mt-1 max-w-md">
+                                        Não encontramos pacientes para a busca realizada.
+                                    </p>
 
+                                    <Link
+                                        href="/pacientes/create"
+                                        class="btn btn-primary btn-sm mt-5"
+                                    >
+                                        + Cadastrar paciente
+                                    </Link>
 
-                            <!-- Nenhum paciente -->
-                            <tr v-if="pacientes.data.length === 0">
+                                </div>
 
-                                <td
-                                    colspan="6"
-                                    class="text-center py-12"
-                                >
+                            </td>
 
-                                    <div class="text-slate-400">
-
-                                        <div class="text-4xl mb-3">
-                                            👤
-                                        </div>
-
-                                        <p class="font-semibold text-slate-600">
-                                            Nenhum paciente encontrado
-                                        </p>
-
-                                        <p class="text-sm mt-1">
-                                            Tente realizar uma nova busca.
-                                        </p>
-
-                                    </div>
-
-                                </td>
-
-                            </tr>
+                        </tr>
 
                         </tbody>
 
@@ -299,7 +370,7 @@ function excluir(id) {
                 </div>
 
             </div>
-
+            </div>
         </div>
     </AppLayout>
 </template>

@@ -3,6 +3,9 @@
 use App\Http\Controllers\AtendimentoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\TipoAtendimentoController;
+use App\Http\Controllers\DashboardController;
+use App\Models\Paciente;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,9 +14,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return inertia('Home');
-})->name('home');
+Route::get('/', [DashboardController::class, 'index'])
+    ->name('home');
 
 
 /*
@@ -161,6 +163,7 @@ Route::get(
     '/tipos-atendimento/{tipoAtendimento}',
     [TipoAtendimentoController::class, 'show']
 )->name('tipos-atendimento.show');
+
 
 // Formulário de edição
 Route::get(

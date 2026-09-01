@@ -42,11 +42,14 @@ function voltar() {
 
             <!-- Cabeçalho -->
             <div
-                class="flex flex-col sm:flex-row sm:items-center
-                       sm:justify-between gap-4 mb-8"
+                class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6"
             >
 
                 <div>
+
+                    <p class="text-sm font-medium text-indigo-600">
+                        Gestão de pacientes
+                    </p>
 
                     <h1 class="text-3xl font-bold text-slate-800">
                         Editar Paciente
@@ -84,7 +87,7 @@ function voltar() {
                             <label class="label">
 
                                 <span class="label-text font-semibold text-slate-700">
-                                    Nome *
+                                    Nome 
                                 </span>
 
                             </label>
@@ -118,7 +121,7 @@ function voltar() {
                             <label class="label">
 
                                 <span class="label-text font-semibold text-slate-700">
-                                    CPF *
+                                    CPF 
                                 </span>
 
                             </label>
