@@ -32,16 +32,17 @@ class AtendimentoController extends Controller
     /**
      * Exibe o formulário para registrar um atendimento.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $pacientes = Paciente::orderBy('nome')->get();
+    $pacientes = Paciente::orderBy('nome')->get();
 
-        $tipos = TipoAtendimento::orderBy('nome')->get();
+    $tipos = TipoAtendimento::orderBy('nome')->get();
 
-        return Inertia::render('Atendimentos/Create', [
-            'pacientes' => $pacientes,
-            'tipos' => $tipos,
-        ]);
+    return Inertia::render('Atendimentos/Create', [
+        'pacientes' => $pacientes,
+        'tipos' => $tipos,
+        'pacienteSelecionado' => $request->paciente_id,
+    ]);
     }
 
     /**

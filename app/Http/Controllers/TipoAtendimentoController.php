@@ -58,20 +58,20 @@ class TipoAtendimentoController extends Controller
     /**
      * Exibe um tipo de atendimento.
      */
-    public function show(TipoAtendimento $tipoAtendimento)
+    public function show(TipoAtendimento $tipos_atendimento)
     {
         return Inertia::render('TipoAtendimento/Show', [
-            'tipo' => $tipoAtendimento,
+            'tipo' => $tipos_atendimento,
         ]);
     }
 
     /**
      * Exibe o formulário de edição.
      */
-    public function edit(TipoAtendimento $tipoAtendimento)
+    public function edit(TipoAtendimento $tipos_atendimento)
     {
         return Inertia::render('TipoAtendimento/Edit', [
-            'tipo' => $tipoAtendimento,
+            'tipo' => $tipos_atendimento,
         ]);
     }
 
@@ -80,14 +80,14 @@ class TipoAtendimentoController extends Controller
      */
     public function update(
         Request $request,
-        TipoAtendimento $tipoAtendimento
+        TipoAtendimento $tipos_atendimento
     ) {
         $dados = $request->validate([
             'nome' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:tipos_atendimento,nome,' . $tipoAtendimento->id,
+                'unique:tipos_atendimento,nome,' . $tipos_atendimento->id,
             ],
             'descricao' => [
                 'nullable',
@@ -96,7 +96,7 @@ class TipoAtendimentoController extends Controller
             ],
         ]);
 
-        $tipoAtendimento->update($dados);
+        $tipos_atendimento->update($dados);
 
         return redirect()
             ->route('tipos-atendimento.index')
@@ -106,9 +106,9 @@ class TipoAtendimentoController extends Controller
     /**
      * Remove um tipo de atendimento.
      */
-    public function destroy(TipoAtendimento $tipoAtendimento)
+    public function destroy(TipoAtendimento $tipos_atendimento)
     {
-        $tipoAtendimento->delete();
+        $tipos_atendimento->delete();
 
         return redirect()
             ->route('tipos-atendimento.index')

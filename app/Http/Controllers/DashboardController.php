@@ -32,7 +32,7 @@ class DashboardController extends Controller
         // Total de atendimentos pendentes
         $pendentes = 0;
 
-        return Inertia::render('Home', [
+        return Inertia::render('Dashboard', [
             'estatisticas' => [
                 'pacientes' => $totalPacientes,
                 'atendimentosHoje' => $atendimentosHoje,

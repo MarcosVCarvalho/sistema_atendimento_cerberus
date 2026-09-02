@@ -22,6 +22,10 @@ class Atendimento extends Model
         'data_hora',
     ];
 
+    protected $casts = [
+        'data_hora' => 'datetime',
+    ];
+
     public function paciente(): BelongsTo
     {
         return $this->belongsTo(

@@ -1,6 +1,7 @@
 <script setup>
-import AppLayout from '../Layout/AppLayout.vue'
+import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 import { router, Link } from '@inertiajs/vue3'
+
 
 defineProps({
     estatisticas: {

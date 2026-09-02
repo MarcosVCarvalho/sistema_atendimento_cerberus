@@ -2,13 +2,14 @@
 
 import { reactive, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import AppLayout from '/resources/js/Layout/AppLayout.vue'
+import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 
 const props = defineProps({
     tipo: Object,
 })
 
 const form = reactive({
+    id: props.tipo.id,
     nome: props.tipo.nome,
     descricao: props.tipo.descricao,
 })
@@ -176,7 +177,7 @@ const voltar = () => {
 
                             <button
                                 type="submit"
-                                class="btn btn-primary"
+                                class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-95"
                                 :disabled="carregando"
                             >
 
@@ -206,6 +207,5 @@ const voltar = () => {
     </div>
 
 </AppLayout>
-```
 
 </template>

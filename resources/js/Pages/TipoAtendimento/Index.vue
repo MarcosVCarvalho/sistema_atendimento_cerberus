@@ -1,7 +1,7 @@
 <script setup>
 
 import { router, Link } from '@inertiajs/vue3'
-import AppLayout from '/resources/js/Layout/AppLayout.vue'
+import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 
 const props = defineProps({
     tipos: {
@@ -45,9 +45,7 @@ function excluir(id) {
 
             <!-- Cabeçalho da página -->
 
-            <div
-                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8"
-            >
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
 
                 <div>
 
@@ -67,9 +65,10 @@ function excluir(id) {
 
                 <Link
                     href="/tipos-atendimento/create"
-                    class="btn btn-primary"
+                    class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-95"
                 >
-                    + Novo tipo
+                    <span class="text-lg leading-none">+</span>
+                     Novo tipo
                 </Link>
 
             </div>
@@ -96,7 +95,7 @@ function excluir(id) {
                         </div>
 
                         <div class="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-xl">
-                            ☰
+                            
                         </div>
 
                     </div>
@@ -171,7 +170,8 @@ function excluir(id) {
                 <tr
                     v-for="tipo in props.tipos"
                     :key="tipo.id"
-                    class="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                    @click="verTipo(tipo.id)"
+                    class="cursor-pointer border-b border-slate-100 hover:bg-slate-50 transition-colors"
                 >
 
                     <!-- ID -->
@@ -220,21 +220,12 @@ function excluir(id) {
 
                         <div class="flex justify-end items-center gap-1">
 
-                            <!-- Visualizar -->
-
-                            <Link
-                                :href="`/tipos-atendimento/${tipo.id}`"
-                                class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-200 order-slate-300"
-                            >
-                                Ver
-                            </Link>
-
-
                             <!-- Editar -->
 
                             <Link
+                                @click.stop
                                 :href="`/tipos-atendimento/${tipo.id}/edit`"
-                                class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-200 order-slate-300"
+                                class="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-950"
                             >
                                 Editar
                             </Link>
@@ -243,8 +234,8 @@ function excluir(id) {
                             <!-- Excluir -->
 
                             <button
-                                @click="excluir(tipo.id)"
-                                class="btn btn-sm btn-ghost text-error hover:bg-red-200 order-slate-300"
+                                @click.stop="excluir(tipo.id)"
+                                class="inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-red-700 hover:shadow-md active:scale-95"
                             >
                                 Excluir
                             </button>

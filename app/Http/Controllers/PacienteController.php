@@ -16,12 +16,13 @@ class PacienteController extends Controller
     public function index(Request $request)
     {
         $busca = $request->input('busca');
+        $buscaCpf = preg_replace('/\D/', '', $busca ?? '');
 
         $pacientes = Paciente::query()
-            ->when($busca, function ($query, $busca) {
-                $query->where(function ($query) use ($busca) {
+            ->when($busca, function ($query) use ($busca, $buscaCpf) {
+                $query->where(function ($query) use ($busca, $buscaCpf) {
                     $query->where('nome', 'like', "%{$busca}%")
-                        ->orWhere('cpf', 'like', "%{$busca}%")
+                        ->orWhere('cpf', 'like', "%{$buscaCpf}%")
                         ->orWhere('telefone', 'like', "%{$busca}%")
                         ->orWhere('whatsapp', 'like', "%{$busca}%");
                 });

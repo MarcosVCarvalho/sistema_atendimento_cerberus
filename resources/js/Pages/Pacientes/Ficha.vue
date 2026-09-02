@@ -1,6 +1,6 @@
 <script setup>
 import { router } from '@inertiajs/vue3'
-import AppLayout from '/resources/js/Layout/AppLayout.vue'
+import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 import {formatarCpf,formatarTelefone} from '/resources/js/Utils/formacoes.js'
 
 const props = defineProps({
@@ -58,7 +58,7 @@ function editar() {
 
                         <button
                             @click="editar"
-                            class="btn btn-primary"
+                            class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-95"
                         >
                             Editar paciente
                         </button>

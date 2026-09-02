@@ -1,7 +1,7 @@
 <script setup>
 
 import { Link, router } from '@inertiajs/vue3'
-import AppLayout from '/resources/js/Layout/AppLayout.vue'
+import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 
 const props = defineProps({
     atendimentos: {
@@ -42,6 +42,10 @@ const formatarDataHora = (data) => {
     })
 }
 
+function verAtendimento(id) {
+    router.visit(`/atendimentos/${id}`)
+}
+
 </script>
 
 <template>
@@ -75,9 +79,10 @@ const formatarDataHora = (data) => {
 
                 <Link
                     href="/atendimentos/create"
-                    class="btn btn-primary"
+                    class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-95"
                 >
-                    + Novo atendimento
+                    <span class="text-lg leading-none">+</span>
+                     Novo atendimento
                 </Link>
 
             </div>
@@ -161,7 +166,8 @@ const formatarDataHora = (data) => {
                             <tr
                                 v-for="atendimento in atendimentos.data"
                                 :key="atendimento.id"
-                                class="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                                @click="verAtendimento(atendimento.id)"
+                                class="cursor-pointer border-b border-slate-100 hover:bg-slate-50 transition-colors"
                             >
 
                                 <!-- ID -->
@@ -250,22 +256,12 @@ const formatarDataHora = (data) => {
                                     <div
                                         class="flex justify-end items-center gap-2"
                                     >
-
-                                        <!-- Ver -->
-
-                                        <Link
-                                            :href="`/atendimentos/${atendimento.id}`"
-                                            class="btn btn-sm btn-outline border-slate-300 text-slate-900 hover:bg-slate-200"
-                                        >
-                                            Ver
-                                        </Link>
-
-
                                         <!-- Editar -->
 
                                         <Link
+                                            @click.stop
                                             :href="`/atendimentos/${atendimento.id}/edit`"
-                                            class="btn btn-sm btn-outline border-slate-300 text-slate-900 hover:bg-slate-200 "
+                                            class="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-950"
                                         >
                                             Editar
                                         </Link>
@@ -273,10 +269,9 @@ const formatarDataHora = (data) => {
 
                                         <!-- Excluir -->
 
-                                        <button
-                                            type="button"
-                                            @click="excluir(atendimento.id)"
-                                            class="btn btn-sm btn-ghost text-error hover:bg-red-200"
+                                        <button      
+                                            @click.stop="excluir(atendimento.id)"
+                                            class="inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-red-700 hover:shadow-md active:scale-95"
                                         >
                                             Excluir
                                         </button>

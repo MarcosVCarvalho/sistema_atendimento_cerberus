@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import {formatarCpf,formatarTelefone} from '/resources/js/Utils/formacoes.js'
 import { router, Link } from '@inertiajs/vue3'
-import AppLayout from '/resources/js/Layout/AppLayout.vue'
+import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 
 const props = defineProps({
     pacientes: {
@@ -46,6 +46,10 @@ function limparBusca() {
     )
 }
 
+function verHistorico(id) {
+    router.visit(`/pacientes/${id}/ficha`)
+}
+
 function excluir(id) {
     if (!confirm('Tem certeza que deseja excluir este paciente?')) {
         return
@@ -87,9 +91,10 @@ function excluir(id) {
 
                 <Link
                     href="/pacientes/create"
-                    class="btn btn-primary"
+                    class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-95"
                 >
-                    + Novo paciente
+                    <span class="text-lg leading-none">+</span>
+                     Novo paciente
                 </Link>
 
             </div>
@@ -180,7 +185,8 @@ function excluir(id) {
                         <tr
                             v-for="paciente in pacientes.data"
                             :key="paciente.id"
-                            class="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                            @click="verHistorico(paciente.id)"
+                            class="cursor-pointer border-b border-slate-100 hover:bg-slate-50 transition-colors"
                         >
 
                             <!-- ID -->
@@ -266,21 +272,23 @@ function excluir(id) {
 
                                 <div class="flex justify-end items-center gap-1">
 
-                                    <!-- Ficha -->
+                                    <!-- Realizar atendimento -->
 
                                     <Link
-                                        :href="`/pacientes/${paciente.id}/ficha`"
-                                        class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-200"
+                                        @click.stop
+                                        :href="`/atendimentos/create?paciente_id=${paciente.id}`"
+                                        class="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-950"
                                     >
-                                        Histórico 
+                                        Atendimento
                                     </Link>
 
 
                                     <!-- Editar -->
 
                                     <Link
+                                        @click.stop
                                         :href="`/pacientes/${paciente.id}/edit`"
-                                        class="btn btn-sm btn-ghost text-slate-900 hover:bg-slate-200"
+                                        class="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-950"
                                     >
                                         Editar
                                     </Link>
@@ -289,9 +297,8 @@ function excluir(id) {
                                     <!-- Excluir -->
 
                                     <button
-                                        type="button"
-                                        @click="excluir(paciente.id)"
-                                        class="btn btn-sm btn-ghost text-error hover:bg-red-100"
+                                        @click.stop="excluir(paciente.id)"
+                                        class="inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-red-700 hover:shadow-md active:scale-95"
                                     >
                                         Excluir
                                     </button>
