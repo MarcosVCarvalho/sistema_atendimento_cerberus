@@ -357,26 +357,25 @@ function excluir(id) {
 
                 <!-- Paginação -->
                 <div
-                    v-if="pacientes.links && pacientes.links.length > 3"
-                    class="px-6 py-4 border-t border-slate-200 flex justify-center"
+                    v-if="props.pacientes.links?.length"
+                    class="flex flex-wrap gap-2 border-t border-slate-200 px-6 py-4"
                 >
 
-                    <div class="join">
-
-                        <Link
-                            v-for="(link, index) in pacientes.links"
-                            :key="index"
-                            :href="link.url || '#'"
-                            class="join-item btn btn-sm"
-                            :class="{
-                                'btn-primary': link.active,
-                                'btn-disabled': !link.url
-                            }"
-                            preserve-scroll
-                            v-html="link.label"
-                        />
-
-                    </div>
+                    <Link
+                        v-for="link in props.pacientes.links"
+                        :key="link.label"
+                        :href="link.url ?? '#'"
+                        class="rounded-lg px-3 py-2 text-sm transition"
+                        :class="[
+                            link.active
+                                ? 'bg-indigo-600 text-white'
+                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                            !link.url
+                                ? 'pointer-events-none opacity-50'
+                                : ''
+                        ]"
+                        v-html="link.label"
+                    />
 
                 </div>
 

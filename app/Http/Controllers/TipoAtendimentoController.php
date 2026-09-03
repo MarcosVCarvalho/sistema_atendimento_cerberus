@@ -34,25 +34,39 @@ class TipoAtendimentoController extends Controller
      */
     public function store(Request $request)
     {
-        $dados = $request->validate([
-            'nome' => [
-                'required',
-                'string',
-                'max:255',
-                'unique:tipos_atendimento,nome',
-            ],
-            'descricao' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
-        ]);
+    $request->merge([
+        'nome' => trim($request->nome),
+        'descricao' => trim($request->descricao),
+    ]);
 
-        TipoAtendimento::create($dados);
+    $dados = $request->validate([
+        'nome' => [
+            'required',
+            'string',
+            'min:3',
+            'max:255',
+            'unique:tipos_atendimento,nome',
+        ],
 
-        return redirect()
-            ->route('tipos-atendimento.index')
-            ->with('success', 'Tipo de atendimento cadastrado com sucesso.');
+        'descricao' => [
+            'nullable',
+            'string',
+            'max:255',
+        ],
+    ], [
+        'nome.required' => 'O nome do tipo de atendimento é obrigatório.',
+        'nome.min' => 'O nome deve possuir pelo menos 3 caracteres.',
+        'nome.max' => 'O nome não pode ultrapassar 255 caracteres.',
+        'nome.unique' => 'Este tipo de atendimento já está cadastrado.',
+
+        'descricao.max' => 'A descrição não pode ultrapassar 255 caracteres.',
+    ]);
+
+    TipoAtendimento::create($dados);
+
+    return redirect()
+        ->route('tipos-atendimento.index')
+        ->with('success', 'Tipo de atendimento cadastrado com sucesso.');
     }
 
     /**
@@ -79,28 +93,43 @@ class TipoAtendimentoController extends Controller
      * Atualiza um tipo de atendimento.
      */
     public function update(
-        Request $request,
-        TipoAtendimento $tipos_atendimento
+    Request $request,
+    TipoAtendimento $tipos_atendimento
     ) {
-        $dados = $request->validate([
-            'nome' => [
-                'required',
-                'string',
-                'max:255',
-                'unique:tipos_atendimento,nome,' . $tipos_atendimento->id,
-            ],
-            'descricao' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
-        ]);
+    $request->merge([
+        'nome' => trim($request->nome),
+        'descricao' => trim($request->descricao),
+    ]);
 
-        $tipos_atendimento->update($dados);
+    $dados = $request->validate([
+        'nome' => [
+            'required',
+            'string',
+            'min:3',
+            'max:255',
+            Rule::unique('tipos_atendimento', 'nome')
+                ->ignore($tipos_atendimento->id),
+        ],
 
-        return redirect()
-            ->route('tipos-atendimento.index')
-            ->with('success', 'Tipo de atendimento atualizado com sucesso.');
+        'descricao' => [
+            'nullable',
+            'string',
+            'max:255',
+        ],
+    ], [
+        'nome.required' => 'O nome do tipo de atendimento é obrigatório.',
+        'nome.min' => 'O nome deve possuir pelo menos 3 caracteres.',
+        'nome.max' => 'O nome não pode ultrapassar 255 caracteres.',
+        'nome.unique' => 'Este tipo de atendimento já está cadastrado.',
+
+        'descricao.max' => 'A descrição não pode ultrapassar 255 caracteres.',
+    ]);
+
+    $tipos_atendimento->update($dados);
+
+    return redirect()
+        ->route('tipos-atendimento.index')
+        ->with('success', 'Tipo de atendimento atualizado com sucesso.');
     }
 
     /**

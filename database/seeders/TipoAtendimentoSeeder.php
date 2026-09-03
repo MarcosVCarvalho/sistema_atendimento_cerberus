@@ -22,7 +22,6 @@ class TipoAtendimentoSeeder extends Seeder
         foreach ($tipos as $tipo) {
             TipoAtendimento::create([
                 'nome' => $tipo,
-                'ativo' => true,
             ]);
         }
     }

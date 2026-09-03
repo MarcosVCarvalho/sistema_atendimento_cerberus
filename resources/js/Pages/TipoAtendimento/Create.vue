@@ -113,6 +113,13 @@ const voltar = () => {
                                 }"
                             />
 
+                            <p
+                                v-if="erros.nome"
+                                class="mt-2 text-sm text-error"
+                            >
+                                {{ erros.nome }}
+                            </p>
+
                             <label class="label mt-2">
 
                             <span class="label-text font-semibold text-slate-700">
@@ -135,9 +142,10 @@ const voltar = () => {
                                 class="label"
                             >
                                 <span class="label-text-alt text-error">
-                                    {{ erros.descricao[0] }}
+                                    {{ erros.descricao }}
                                 </span>
                             </label>
+
 
                         </div>
 

@@ -19,7 +19,7 @@ class PacienteSeeder extends Seeder
 
         $tipos = TipoAtendimento::all();
 
-        $pacientes = Paciente::factory(10)->create();
+        $pacientes = Paciente::factory(120)->create();
 
         foreach ($pacientes as $paciente) {
 

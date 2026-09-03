@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\RelatorioController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\AtendimentoController;
 use App\Http\Controllers\TipoAtendimentoController;
@@ -19,7 +19,7 @@ use App\Http\Controllers\AuditoriaController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return redirect()->route('home');
 });
 
 /*
@@ -30,9 +30,9 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
 
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
+    // Home
+    Route::get('/home', [HomeController::class, 'index'])
+        ->name('home');
 
     /*
     |--------------------------------------------------------------------------

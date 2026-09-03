@@ -7,6 +7,7 @@ use App\Models\Paciente;
 use App\Models\TipoAtendimento;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class AtendimentoController extends Controller
 {
@@ -14,20 +15,94 @@ class AtendimentoController extends Controller
      * Lista os atendimentos.
      */
     public function index(Request $request)
-    {
-        $atendimentos = Atendimento::with([
+{
+    $busca = trim($request->input('busca', ''));
+
+    // Tenta identificar se a busca é uma data
+    $dataBusca = null;
+
+    if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $busca)) {
+        try {
+            $dataBusca = Carbon::createFromFormat('d/m/Y', $busca)
+                ->format('Y-m-d');
+        } catch (\Exception $e) {
+            $dataBusca = null;
+        }
+    }
+
+    $buscaCpf = preg_replace('/\D/', '', $busca);
+
+    $atendimentos = Atendimento::query()
+        ->with([
             'paciente',
             'tipoAtendimento',
             'usuario',
         ])
-            ->orderByDesc('data_hora')
-            ->paginate(15)
-            ->withQueryString();
+        ->when($busca, function ($query) use ($busca, $buscaCpf, $dataBusca) {
 
-        return Inertia::render('Atendimentos/Index', [
-            'atendimentos' => $atendimentos,
-        ]);
-    }
+            $query->where(function ($q) use ($busca, $buscaCpf, $dataBusca) {
+
+                // Paciente
+                $q->whereHas('paciente', function ($paciente) use ($busca, $buscaCpf) {
+
+                    $paciente
+                        ->where('nome', 'like', "%{$busca}%")
+                        ->orWhere('telefone', 'like', "%{$busca}%")
+                        ->orWhere('whatsapp', 'like', "%{$busca}%");
+
+                    if ($buscaCpf !== '') {
+                        $paciente->orWhere(
+                            'cpf',
+                            'like',
+                            "%{$buscaCpf}%"
+                        );
+                    }
+                })
+
+                // Tipo de atendimento
+                ->orWhereHas('tipoAtendimento', function ($tipo) use ($busca) {
+                    $tipo->where(
+                        'nome',
+                        'like',
+                        "%{$busca}%"
+                    );
+                })
+
+                // Observações
+                ->orWhere(
+                    'observacoes',
+                    'like',
+                    "%{$busca}%"
+                )
+
+                // Encaminhamentos
+                ->orWhere(
+                    'encaminhamentos',
+                    'like',
+                    "%{$busca}%"
+                );
+
+                // Data
+                if ($dataBusca) {
+                    $q->orWhereDate(
+                        'data_hora',
+                        $dataBusca
+                    );
+                }
+            });
+        })
+        ->orderByDesc('data_hora')
+        ->paginate(10)
+        ->withQueryString();
+
+    return Inertia::render('Atendimentos/Index', [
+        'atendimentos' => $atendimentos,
+
+        'filtros' => [
+            'busca' => $busca,
+        ],
+    ]);
+}
 
     /**
      * Exibe o formulário para registrar um atendimento.

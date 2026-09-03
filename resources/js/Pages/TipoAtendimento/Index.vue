@@ -248,19 +248,14 @@ function excluir(id) {
 
 
                 <!-- Nenhum registro -->
-
                 <tr v-if="props.tipos.length === 0">
 
                     <td
-                        colspan="3"
-                        class="px-6 py-16"
-                    >
+                        colspan="3" class="px-6 py-16">
 
                         <div class="flex flex-col items-center justify-center text-center">
 
-                            <div
-                                class="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl mb-4"
-                            >
+                            <div lass="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl mb-4">
                                 ☰
                             </div>
 
@@ -285,6 +280,29 @@ function excluir(id) {
                     </td>
 
                 </tr>
+
+                <div
+                    v-if="props.tipos.links?.length"
+                    class="flex flex-wrap gap-2 border-t border-slate-200 px-6 py-4"
+                >
+
+                    <Link
+                        v-for="link in props.tipos.links"
+                        :key="link.label"
+                        :href="link.url ?? '#'"
+                        class="rounded-lg px-3 py-2 text-sm transition"
+                        :class="[
+                            link.active
+                                ? 'bg-indigo-600 text-white'
+                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                            !link.url
+                                ? 'pointer-events-none opacity-50'
+                                : ''
+                        ]"
+                        v-html="link.label"
+                    />
+
+                </div>
 
             </tbody>
                 

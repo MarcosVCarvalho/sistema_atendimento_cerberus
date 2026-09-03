@@ -1,17 +1,19 @@
 <script setup>
 
 import { Link, router } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 
 const props = defineProps({
     atendimentos: {
         type: Object,
+        required: true,
+    },
+
+    filtros: {
+        type: Object,
         default: () => ({
-            data: [],
-            links: [],
-            current_page: 1,
-            last_page: 1,
-            total: 0,
+            busca: '',
         }),
     },
 })
@@ -44,6 +46,34 @@ const formatarDataHora = (data) => {
 
 function verAtendimento(id) {
     router.visit(`/atendimentos/${id}`)
+}
+
+const busca = ref(props.filtros.busca || '')
+
+function buscar() {
+    router.get(
+        '/atendimentos',
+        {
+            busca: busca.value || undefined,
+        },
+        {
+            preserveState: true,
+            preserveScroll: true,
+        }
+    )
+}
+
+function limparBusca() {
+    busca.value = ''
+
+    router.get(
+        '/atendimentos',
+        {},
+        {
+            preserveState: true,
+            preserveScroll: true,
+        }
+    )
 }
 
 </script>
@@ -83,11 +113,47 @@ function verAtendimento(id) {
                 >
                     <span class="text-lg leading-none">+</span>
                      Novo atendimento
-                </Link>
-
+                    </Link>
+                    
+                </div>
+                
+                <!-- Busca -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+    
+                <form
+                    @submit.prevent="buscar"
+                    class="flex flex-col sm:flex-row gap-3"
+                >
+    
+                    <div class="flex-1">
+                        <input
+                            v-model="busca"
+                            type="text"
+                            placeholder="Buscar por nome, CPF ou telefone..."
+                            class="input input-bordered w-full"
+                        />
+                    </div>
+    
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Buscar
+                    </button>
+    
+                    <button
+                        v-if="busca"
+                        type="button"
+                        @click="limparBusca"
+                        class="btn btn-outline"
+                    >
+                        Limpar
+                    </button>
+    
+                </form>
+    
             </div>
-
-
+                
             <!-- Card da tabela -->
 
             <div
@@ -118,6 +184,7 @@ function verAtendimento(id) {
                     </Link>
 
                 </div>
+
 
 
                 <!-- Tabela -->
@@ -333,43 +400,25 @@ function verAtendimento(id) {
                 <!-- Paginação -->
 
                 <div
-                    v-if="atendimentos.last_page > 1"
-                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-slate-200 p-5"
+                    v-if="props.atendimentos.links?.length"
+                    class="flex flex-wrap gap-2 border-t border-slate-200 px-6 py-4"
                 >
 
-                    <p class="text-sm text-slate-500">
-                        Página {{ atendimentos.current_page }}
-                        de {{ atendimentos.last_page }}
-                    </p>
-
-                    <div class="flex items-center gap-1">
-
-                        <template
-                            v-for="link in atendimentos.links"
-                            :key="link.label"
-                        >
-
-                            <Link
-                                v-if="link.url"
-                                :href="link.url"
-                                preserve-scroll
-                                class="btn btn-sm"
-                                :class="{
-                                    'btn-primary': link.active,
-                                    'btn-ghost': !link.active
-                                }"
-                                v-html="link.label"
-                            />
-
-                            <span
-                                v-else
-                                class="btn btn-sm btn-disabled"
-                                v-html="link.label"
-                            />
-
-                        </template>
-
-                    </div>
+                    <Link
+                        v-for="link in props.atendimentos.links"
+                        :key="link.label"
+                        :href="link.url ?? '#'"
+                        class="rounded-lg px-3 py-2 text-sm transition"
+                        :class="[
+                            link.active
+                                ? 'bg-indigo-600 text-white'
+                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                            !link.url
+                                ? 'pointer-events-none opacity-50'
+                                : ''
+                        ]"
+                        v-html="link.label"
+                    />
 
                 </div>
 

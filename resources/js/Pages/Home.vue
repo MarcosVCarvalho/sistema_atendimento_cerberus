@@ -30,7 +30,7 @@ defineProps({
             </p>
 
             <h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">
-                Dashboard
+                Home
             </h1>
 
             <p class="mt-2 text-slate-500">

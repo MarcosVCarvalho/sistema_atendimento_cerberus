@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Rules\ValidCpf;
 use Inertia\Inertia;
 
+
 class PacienteController extends Controller
 {
     /**
@@ -15,28 +16,35 @@ class PacienteController extends Controller
      */
     public function index(Request $request)
     {
-        $busca = $request->input('busca');
-        $buscaCpf = preg_replace('/\D/', '', $busca ?? '');
+    $busca = $request->input('busca');
 
-        $pacientes = Paciente::query()
-            ->when($busca, function ($query) use ($busca, $buscaCpf) {
-                $query->where(function ($query) use ($busca, $buscaCpf) {
-                    $query->where('nome', 'like', "%{$busca}%")
-                        ->orWhere('cpf', 'like', "%{$buscaCpf}%")
-                        ->orWhere('telefone', 'like', "%{$busca}%")
-                        ->orWhere('whatsapp', 'like', "%{$busca}%");
-                });
-            })
-            ->orderBy('nome')
-            ->paginate(15)
-            ->withQueryString();
+    $buscaCpf = preg_replace('/\D/', '', $busca ?? '');
 
-        return Inertia::render('Pacientes/Index', [
-            'pacientes' => $pacientes,
-            'filtros' => [
-                'busca' => $busca,
-            ],
-        ]);
+    $pacientes = Paciente::query()
+        ->when($busca, function ($query) use ($busca, $buscaCpf) {
+
+            $query->where(function ($q) use ($busca, $buscaCpf) {
+
+                $q->where('nome', 'like', "%{$busca}%")
+                    ->orWhere('telefone', 'like', "%{$busca}%")
+                    ->orWhere('whatsapp', 'like', "%{$busca}%");
+
+                if ($buscaCpf !== '') {
+                    $q->orWhere('cpf', 'like', "%{$buscaCpf}%");
+                }
+
+            });
+        })
+        ->orderBy('nome')
+        ->paginate(10)
+        ->withQueryString();
+
+    return Inertia::render('Pacientes/Index', [
+        'pacientes' => $pacientes,
+        'filtros' => [
+            'busca' => $busca,
+        ],
+    ]);
     }
 
     /**
@@ -51,37 +59,65 @@ class PacienteController extends Controller
      * Cadastra um novo paciente.
      */
     public function store(Request $request)
-    {
-        $request->merge([
+{
+    $request->merge([
+        'nome' => trim($request->nome),
         'cpf' => preg_replace('/\D/', '', $request->cpf),
         'telefone' => preg_replace('/\D/', '', $request->telefone),
-        'whatsapp' => preg_replace('/\D/', '', $request->whatsapp),]);
+        'whatsapp' => preg_replace('/\D/', '', $request->whatsapp),
+        'endereco' => trim($request->endereco),
+    ]);
 
-        $dados = $request->validate([
-            'nome' => ['required', 'string', 'max:255', 'min:3'],
-            'cpf' => ['required', 'string', new ValidCpf,'unique:pacientes,cpf',],
-            'telefone' => ['nullable', 'string', 'max:20','regex:/^\d{10,11}$/'],
-            'whatsapp' => ['nullable', 'string', 'max:20','regex:/^\d{10,11}$/'],
-            'endereco' => ['nullable', 'string', 'max:255'],],
+    $dados = $request->validate([
+        'nome' => [
+            'required',
+            'string',
+            'min:3',
+            'max:255',
+        ],
 
-            [
-            'nome.required' => 'O nome do paciente é obrigatório.',
-            'nome.min' => 'O nome deve possuir pelo menos 3 caracteres.',
-            'nome.max' => 'O nome não pode ultrapassar 255 caracteres.',
-            'cpf.required' => 'O CPF é obrigatório.',
-            'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
-            'telefone.regex' => 'O telefone informado é inválido.',
-            'whatsapp.regex' => 'O WhatsApp informado é inválido.',
-            'endereco.max' => 'O endereço não pode ultrapassar 255 caracteres.',]
-        );
+        'cpf' => [
+            'required',
+            'string',
+            new ValidCpf,
+            'unique:pacientes,cpf',
+        ],
 
+        'telefone' => [
+            'nullable',
+            'regex:/^\d{10,11}$/',
+        ],
 
-        Paciente::create($dados);
+        'whatsapp' => [
+            'nullable',
+            'regex:/^\d{10,11}$/',
+        ],
 
-        return redirect()
-            ->route('pacientes.index')
-            ->with('success', 'Paciente cadastrado com sucesso.');
-    }
+        'endereco' => [
+            'nullable',
+            'string',
+            'max:255',
+        ],
+    ], [
+        'nome.required' => 'O nome do paciente é obrigatório.',
+        'nome.min' => 'O nome deve possuir pelo menos 3 caracteres.',
+        'nome.max' => 'O nome não pode ultrapassar 255 caracteres.',
+
+        'cpf.required' => 'O CPF é obrigatório.',
+        'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
+
+        'telefone.regex' => 'O telefone informado é inválido.',
+        'whatsapp.regex' => 'O WhatsApp informado é inválido.',
+
+        'endereco.max' => 'O endereço não pode ultrapassar 255 caracteres.',
+    ]);
+
+    Paciente::create($dados);
+
+    return redirect()
+        ->route('pacientes.index')
+        ->with('success', 'Paciente cadastrado com sucesso.');
+}
 
     /**
      * Exibe um paciente.
@@ -107,48 +143,69 @@ class PacienteController extends Controller
      * Atualiza um paciente.
      */
     public function update(Request $request, Paciente $paciente)
-    {
-        $request->merge([
+{
+    $request->merge([
+        'nome' => trim($request->nome),
         'cpf' => preg_replace('/\D/', '', $request->cpf),
         'telefone' => preg_replace('/\D/', '', $request->telefone),
-        'whatsapp' => preg_replace('/\D/', '', $request->whatsapp),]);
+        'whatsapp' => preg_replace('/\D/', '', $request->whatsapp),
+        'endereco' => trim($request->endereco),
+    ]);
 
-        $dados = $request->validate([
-        'nome' => ['required', 'string', 'max:255', 'min:3'],
-
-        'cpf' => ['required','string',new ValidCpf,
-        Rule::unique('pacientes', 'cpf')
-            ->ignore($paciente->id),
+    $dados = $request->validate([
+        'nome' => [
+            'required',
+            'string',
+            'min:3',
+            'max:255',
         ],
 
-        'telefone' => ['nullable', 'regex:/^\d{10,11}$/',],
-        'whatsapp' => ['nullable', 'regex:/^\d{11}$/',],
-        'endereco' => ['nullable', 'string', 'max:255'],],
+        'cpf' => [
+            'required',
+            'string',
+            new ValidCpf,
+            Rule::unique('pacientes', 'cpf')
+                ->ignore($paciente->id),
+        ],
 
-        [
-            'nome.required' => 'O nome do paciente é obrigatório.',
-            'nome.min' => 'O nome deve possuir pelo menos 3 caracteres.',
-            'nome.max' => 'O nome não pode ultrapassar 255 caracteres.',
-            'cpf.required' => 'O CPF é obrigatório.',
-            'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
-            'telefone.regex' => 'O telefone informado é inválido.',
-            'whatsapp.regex' => 'O WhatsApp informado é inválido.',
-            'endereco.max' => 'O endereço não pode ultrapassar 255 caracteres.',]
+        'telefone' => [
+            'nullable',
+            'regex:/^\d{10,11}$/',
+        ],
 
-        );
+        'whatsapp' => [
+            'nullable',
+            'regex:/^\d{10,11}$/',
+        ],
+
+        'endereco' => [
+            'nullable',
+            'string',
+            'max:255',
+        ],
+    ], [
+        'nome.required' => 'O nome do paciente é obrigatório.',
+        'nome.min' => 'O nome deve possuir pelo menos 3 caracteres.',
+        'nome.max' => 'O nome não pode ultrapassar 255 caracteres.',
+        'cpf.required' => 'O CPF é obrigatório.',
+        'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
+        'telefone.regex' => 'O telefone informado é inválido.',
+        'whatsapp.regex' => 'O WhatsApp informado é inválido.',
+        'endereco.max' => 'O endereço não pode ultrapassar 255 caracteres.',
+    ]);
 
     $paciente->update($dados);
 
     return redirect()
         ->route('pacientes.ficha', $paciente)
         ->with('success', 'Paciente atualizado com sucesso.');
-    }
+}
 
     /**
      * Remove um paciente.
      */
     public function destroy(Paciente $paciente)
-    {
+    {   
         $paciente->delete();
 
         return redirect()
@@ -177,43 +234,4 @@ class PacienteController extends Controller
     ]);
     }
 
-    /**
-     * Pesquisa rápida de pacientes.
-     */
-    public function buscar(Request $request)
-    {
-        $dados = $request->validate([
-            'q' => [
-                'required',
-                'string',
-            ],
-        ]);
-
-        $busca = $dados['q'];
-
-        $pacientes = Paciente::query()
-            ->where(function ($query) use ($busca) {
-                $query->where('id', 'like', "%{$busca}%")
-                    ->orWhere('nome', 'like', "%{$busca}%")
-                    ->orWhere('cpf', 'like', "%{$busca}%")
-                    ->orWhere('telefone', 'like', "%{$busca}%")
-                    ->orWhere('whatsapp', 'like', "%{$busca}%");
-            })
-            ->orderBy('nome')
-            ->limit(20)
-            ->get([
-                'id',
-                'nome',
-                'cpf',
-                'telefone',
-                'whatsapp',
-                'endereco',
-            ]);
-
-        return Inertia::render('Pacientes/Busca', [
-            'resultados' => $pacientes,
-            'total' => $pacientes->count(),
-            'busca' => $busca,
-        ]);
-    }
 }

@@ -6,7 +6,7 @@ use App\Models\Atendimento;
 use App\Models\Paciente;
 use Inertia\Inertia;
 
-class DashboardController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {
@@ -32,7 +32,7 @@ class DashboardController extends Controller
         // Total de atendimentos pendentes
         $pendentes = 0;
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Home', [
             'estatisticas' => [
                 'pacientes' => $totalPacientes,
                 'atendimentosHoje' => $atendimentosHoje,

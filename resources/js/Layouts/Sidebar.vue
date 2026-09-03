@@ -71,7 +71,7 @@ const isActive = (path) => {
                         : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                 "
             >
-                <span>Dashboard</span>
+                <span>Home</span>
             </Link>
 
 
