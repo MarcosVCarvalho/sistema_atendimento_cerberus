@@ -12,14 +12,19 @@ class PacienteSeeder extends Seeder
 {
     public function run(): void
     {
-        $usuario = User::factory()->create([
-            'name' => 'Administrador',
-            'email' => 'admin@prefeitura.test',
-        ]);
+        $usuario = User::firstOrCreate(
+            ['email' => 'admin@prefeitura.test'],
+            [
+                'name' => 'Administrador',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'role' => 'admin',
+            ]
+        );
 
         $tipos = TipoAtendimento::all();
 
-        $pacientes = Paciente::factory(120)->create();
+        $pacientes = Paciente::factory(12)->create();
 
         foreach ($pacientes as $paciente) {
 

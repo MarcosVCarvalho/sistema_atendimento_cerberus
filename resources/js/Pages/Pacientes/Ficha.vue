@@ -154,18 +154,34 @@ function editar() {
                             </div>
 
 
-                            <!-- Endereço -->
+                            <div>
+                                <p class="text-sm font-medium text-slate-500">
+                                    Rua
+                                </p>
+
+                                <p class="text-slate-800">
+                                    {{ paciente.rua || 'Não informado' }}
+                                </p>
+                            </div>
 
                             <div>
-
-                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                                    Endereço
+                                <p class="text-sm font-medium text-slate-500">
+                                    Bairro
                                 </p>
 
-                                <p class="text-sm font-medium text-slate-800 mt-1">
-                                    {{ props.paciente.endereco || 'Não informado' }}
+                                <p class="text-slate-800">
+                                    {{ paciente.bairro || 'Não informado' }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm font-medium text-slate-500">
+                                    Cidade
                                 </p>
 
+                                <p class="text-slate-800">
+                                    {{ paciente.cidade || 'Não informado' }}
+                                </p>
                             </div>
 
                         </div>

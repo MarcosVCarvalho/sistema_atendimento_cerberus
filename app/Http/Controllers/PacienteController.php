@@ -65,7 +65,9 @@ class PacienteController extends Controller
         'cpf' => preg_replace('/\D/', '', $request->cpf),
         'telefone' => preg_replace('/\D/', '', $request->telefone),
         'whatsapp' => preg_replace('/\D/', '', $request->whatsapp),
-        'endereco' => trim($request->endereco),
+        'rua' => trim($request->rua),
+        'bairro' => trim($request->bairro),
+        'cidade' => trim($request->cidade),
     ]);
 
     $dados = $request->validate([
@@ -93,10 +95,22 @@ class PacienteController extends Controller
             'regex:/^\d{10,11}$/',
         ],
 
-        'endereco' => [
+        'rua' => [
             'nullable',
             'string',
-            'max:255',
+            'max:255'
+        ],
+
+        'bairro' => [
+            'nullable',
+            'string',
+            'max:255'
+        ],
+
+        'cidade' => [
+            'nullable',
+            'string',
+            'max:255'
         ],
     ], [
         'nome.required' => 'O nome do paciente é obrigatório.',
@@ -109,7 +123,9 @@ class PacienteController extends Controller
         'telefone.regex' => 'O telefone informado é inválido.',
         'whatsapp.regex' => 'O WhatsApp informado é inválido.',
 
-        'endereco.max' => 'O endereço não pode ultrapassar 255 caracteres.',
+        'rua.max' => 'A rua não pode ultrapassar 255 caracteres.',
+        'bairro.max' => 'O bairro não pode ultrapassar 255 caracteres.',
+        'cidade.max' => 'A cidade não pode ultrapassar 255 caracteres.',
     ]);
 
     Paciente::create($dados);
@@ -149,7 +165,9 @@ class PacienteController extends Controller
         'cpf' => preg_replace('/\D/', '', $request->cpf),
         'telefone' => preg_replace('/\D/', '', $request->telefone),
         'whatsapp' => preg_replace('/\D/', '', $request->whatsapp),
-        'endereco' => trim($request->endereco),
+        'rua' => trim($request->rua),
+        'bairro' => trim($request->bairro),
+        'cidade' => trim($request->cidade),
     ]);
 
     $dados = $request->validate([
@@ -178,11 +196,20 @@ class PacienteController extends Controller
             'regex:/^\d{10,11}$/',
         ],
 
-        'endereco' => [
-            'nullable',
-            'string',
-            'max:255',
-        ],
+        'rua' => [
+            'nullable', 
+            'string', 
+            'max:255'],
+
+        'bairro' => [
+            'nullable', 
+            'string', 
+            'max:255'],
+
+        'cidade' => [
+            'nullable', 
+            'string', 
+            'max:255'],
     ], [
         'nome.required' => 'O nome do paciente é obrigatório.',
         'nome.min' => 'O nome deve possuir pelo menos 3 caracteres.',
@@ -191,7 +218,9 @@ class PacienteController extends Controller
         'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
         'telefone.regex' => 'O telefone informado é inválido.',
         'whatsapp.regex' => 'O WhatsApp informado é inválido.',
-        'endereco.max' => 'O endereço não pode ultrapassar 255 caracteres.',
+        'rua.max' => 'A rua não pode ultrapassar 255 caracteres.',
+        'bairro.max' => 'O bairro não pode ultrapassar 255 caracteres.',
+        'cidade.max' => 'A cidade não pode ultrapassar 255 caracteres.',
     ]);
 
     $paciente->update($dados);

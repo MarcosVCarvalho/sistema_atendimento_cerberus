@@ -17,7 +17,9 @@ class Paciente extends Model
         'cpf',
         'telefone',
         'whatsapp',
-        'endereco',
+        'rua',
+        'bairro',
+        'cidade',
     ];
 
     /**

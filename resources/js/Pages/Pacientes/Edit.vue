@@ -14,7 +14,9 @@ const form = reactive({
     cpf: formatarCpf(props.paciente.cpf),
     telefone: formatarTelefone(props.paciente.telefone),
     whatsapp: formatarTelefone(props.paciente.whatsapp),
-    endereco: props.paciente.endereco ?? '',
+    rua: props.paciente.rua ?? '',
+    bairro: props.paciente.bairro ?? '',
+    cidade: props.paciente.cidade ?? '',
 })
 
 const erros = ref({})

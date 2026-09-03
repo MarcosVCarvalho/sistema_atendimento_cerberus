@@ -157,6 +157,19 @@ class RelatorioController extends Controller
                 ];
             });
 
+        $porBairro = (clone $baseQuery)
+            ->join('pacientes', 'atendimentos.paciente_id', '=', 'pacientes.id')
+            ->selectRaw('pacientes.bairro, COUNT(*) as quantidade')
+            ->groupBy('pacientes.bairro')
+            ->orderByDesc('quantidade')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'bairro' => $item->bairro,
+                    'quantidade' => $item->quantidade,
+                ];
+            });
+
         // Atendimentos por usuário
         $porUsuario = (clone $baseQuery)
             ->selectRaw('usuario_id, COUNT(*) as quantidade')

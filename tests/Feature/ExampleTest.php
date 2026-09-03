@@ -1,7 +1,9 @@
 <?php
 
-it('returns a successful response', function () {
-    $response = $this->get('/');
+test('usuário não autenticado é redirecionado para o login', function () {
 
-    $response->assertStatus(200);
+    $response = $this->get('/home');
+
+    $response->assertRedirect('/login');
+
 });
