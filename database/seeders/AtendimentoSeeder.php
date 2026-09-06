@@ -13,9 +13,7 @@ class AtendimentoSeeder extends Seeder
     public function run(): void
     {
         $pacientes = Paciente::pluck('id');
-
         $tipos = TipoAtendimento::pluck('id');
-
         $usuarios = User::pluck('id');
 
         if ($pacientes->isEmpty()) {
@@ -33,19 +31,18 @@ class AtendimentoSeeder extends Seeder
             return;
         }
 
-        for ($i = 0; $i < 300; $i++) {
+        for ($i = 0; $i < 500; $i++) {
+
             Atendimento::create([
                 'paciente_id' => $pacientes->random(),
+
                 'tipo_atendimento_id' => $tipos->random(),
+
                 'usuario_id' => $usuarios->random(),
 
-                'observacoes' => fake()->optional(0.8)->sentence(
-                    fake()->numberBetween(8, 18)
-                ),
+                'observacoes' => fake()->optional(0.8)->sentence(),
 
-                'encaminhamentos' => fake()->optional(0.5)->sentence(
-                    fake()->numberBetween(5, 12)
-                ),
+                'encaminhamentos' => fake()->optional(0.5)->sentence(),
 
                 'data_hora' => fake()->dateTimeBetween(
                     '-6 months',
@@ -54,6 +51,8 @@ class AtendimentoSeeder extends Seeder
             ]);
         }
 
-        $this->command->info('300 atendimentos criados com sucesso!');
+        $this->command->info(
+            '500 atendimentos criados com sucesso!'
+        );
     }
 }

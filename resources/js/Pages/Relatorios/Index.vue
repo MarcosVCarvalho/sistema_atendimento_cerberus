@@ -1,6 +1,6 @@
 <script setup>
 
-import { computed, reactive } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 
@@ -36,6 +36,16 @@ const props = defineProps({
     },
 
     porCidade: {
+        type: Array,
+        default: () => [],
+    },
+
+    cidades: {
+        type: Array,
+        default: () => [],
+    },
+
+    bairros: {
         type: Array,
         default: () => [],
     },
@@ -238,68 +248,54 @@ const exportarPdf = () => {
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                     <!-- Cidade -->
-
                     <div class="form-control">
+                        <label class="label">
+                            <span class="label-text font-semibold text-slate-700">
+                                Cidade
+                            </span>
+                        </label>
 
-                    <label class="label">
-                        <span class="label-text font-semibold text-slate-700">
-                            Cidade
-                        </span>
-                    </label>
-
-                    <select
-                        v-model="filtro.cidade"
-                        class="select select-bordered w-full"
-                        @change="filtro.bairro = ''"
-                    >
-
-                        <option value="">
-                            Todas as cidades
-                        </option>
-
-                        <option
-                            v-for="cidade in props.cidades"
-                            :key="cidade"
-                            :value="cidade"
+                        <select
+                            v-model="filtro.cidade"
+                            class="select select-bordered w-full"
+                            @change="filtro.bairro = ''"
                         >
-                            {{ cidade }}
-                        </option>
+                            <option value="">Todas as cidades</option>
 
-                    </select>
-
-                </div>
+                            <option
+                                v-for="cidade in props.cidades"
+                                :key="cidade"
+                                :value="cidade"
+                            >
+                                {{ cidade }}
+                            </option>
+                        </select>
+                    </div>
 
 
                     <!-- Bairro -->
-
                     <div class="form-control">
+                        <label class="label">
+                            <span class="label-text font-semibold text-slate-700">
+                                Bairro
+                            </span>
+                        </label>
 
-                    <label class="label">
-                        <span class="label-text font-semibold text-slate-700">
-                            Bairro
-                        </span>
-                    </label>
-
-                    <select
-                        v-model="filtro.bairro"
-                        class="select select-bordered w-full"
-                    >
-
-                        <option value="">
-                            Todos os bairros
-                        </option>
-
-                        <option
-                            v-for="item in bairrosFiltrados"
-                            :key="`${item.cidade}-${item.bairro}`"
-                            :value="item.bairro"
+                        <select
+                            v-model="filtro.bairro"
+                            class="select select-bordered w-full"
                         >
-                            {{ item.bairro }}
-                        </option>
+                            <option value="">Todos os bairros</option>
 
-                    </select>
-
-                </div>
+                            <option
+                                v-for="item in bairrosFiltrados"
+                                :key="`${item.cidade}-${item.bairro}`"
+                                :value="item.bairro"
+                            >
+                                {{ item.bairro }}
+                            </option>
+                        </select>
+                    </div>
 
                 </div>
 
@@ -433,7 +429,8 @@ const exportarPdf = () => {
 
             <!-- GRÁFICOS -->
 
-            <div class="mb-8 grid gap-6 xl:grid-cols-2">
+
+            <div class="mb-8 grid grid-cols-1 gap-6">
 
 
                 <!-- Atendimentos por dia -->
@@ -585,88 +582,6 @@ const exportarPdf = () => {
             <div class="grid gap-6 xl:grid-cols-2">
 
 
-                <!-- Por tipo -->
-
-                <div
-                    class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
-                >
-
-                    <div class="border-b border-slate-200 p-6">
-
-                        <h2 class="text-lg font-semibold text-slate-800">
-                            Resumo por tipo
-                        </h2>
-
-                    </div>
-
-
-                    <div class="overflow-x-auto">
-
-                        <table class="w-full">
-
-                            <thead>
-
-                                <tr class="border-b border-slate-100 bg-slate-50">
-
-                                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
-                                        Tipo
-                                    </th>
-
-                                    <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
-                                        Quantidade
-                                    </th>
-
-                                    <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
-                                        %
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                <tr
-                                    v-for="tipo in porTipo"
-                                    :key="tipo.id"
-                                    class="border-b border-slate-100 last:border-0 hover:bg-slate-50"
-                                >
-
-                                    <td class="px-6 py-4 text-sm font-medium text-slate-700">
-                                        {{ tipo.nome }}
-                                    </td>
-
-                                    <td class="px-6 py-4 text-right text-sm font-semibold text-slate-800">
-                                        {{ tipo.quantidade }}
-                                    </td>
-
-                                    <td class="px-6 py-4 text-right text-sm text-slate-500">
-                                        {{ tipo.porcentagem }}%
-                                    </td>
-
-                                </tr>
-
-
-                                <tr v-if="!porTipo.length">
-
-                                    <td
-                                        colspan="3"
-                                        class="px-6 py-10 text-center text-sm text-slate-400"
-                                    >
-                                        Nenhum dado encontrado.
-                                    </td>
-
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-
                 <!-- Por usuário -->
 
                 <div
@@ -810,6 +725,75 @@ const exportarPdf = () => {
 
                             </table>
 
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Atendimentos por cidade -->
+                <div class="mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                    <div class="border-b border-slate-100 px-6 py-5">
+                        <h2 class="text-lg font-bold text-slate-800">
+                            Atendimentos por cidade
+                        </h2>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            Distribuição dos números de atendimentos conforme a cidade do paciente.
+                        </p>
+                    </div>
+
+                    <div class="p-6">
+
+                        <div
+                            v-if="porCidade.length === 0"
+                            class="py-8 text-center text-sm text-slate-400"
+                        >
+                            Nenhum atendimento encontrado para o período selecionado.
+                        </div>
+
+                        <div
+                            v-else
+                            class="overflow-x-auto"
+                        >
+                            <table class="w-full">
+
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-left">
+                                        <th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                            Cidade
+                                        </th>
+
+                                        <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                            Atendimentos
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr
+                                        v-for="item in porCidade"
+                                        :key="item.cidade"
+                                        class="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                                    >
+                                        <td class="px-4 py-4">
+                                            <span class="font-semibold text-slate-700">
+                                                {{ item.cidade }}
+                                            </span>
+                                        </td>
+
+                                        <td class="px-4 py-4 text-right">
+                                            <span class="text-lg font-bold text-indigo-600">
+                                                {{ item.quantidade }}
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
                         </div>
 
                     </div>

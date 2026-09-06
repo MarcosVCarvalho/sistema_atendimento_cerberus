@@ -197,7 +197,7 @@ class RelatorioController extends Controller
     ->orderBy('cidade')
     ->pluck('cidade');
 
-$bairros = Paciente::query()
+    $bairros = Paciente::query()
     ->whereNotNull('bairro')
     ->where('bairro', '!=', '')
     ->select('bairro', 'cidade')
@@ -232,7 +232,7 @@ return Inertia::render('Relatorios/Index', [
     'porBairro' => $porBairro,
     'porCidade' => $porCidade,
 
-    // Opções para os selects
+    // Filtros de localização
     'cidades' => $cidades,
     'bairros' => $bairros,
 ]);
