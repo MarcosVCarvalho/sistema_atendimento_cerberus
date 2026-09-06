@@ -38,6 +38,10 @@ const formatarHora = (data) => {
     })
 }
 
+function verAtendimento(id) {
+    router.visit(`/atendimentos/${id}`)
+}
+
 </script>
 
 <template>
@@ -234,6 +238,7 @@ const formatarHora = (data) => {
                             <tr
                                 v-for="atendimento in atendimentos"
                                 :key="atendimento.id"
+                                @click="verAtendimento(atendimento.id)"
                                 class="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors"
                             >
 
@@ -344,18 +349,21 @@ const formatarHora = (data) => {
                                     <div class="flex justify-end gap-2">
 
                                         <Link
-                                            :href="`/atendimentos/${atendimento.id}`"
-                                            class="btn btn-sm btn-outline"
-                                        >
-                                            Ver
-                                        </Link>
-
-                                        <Link
+                                            @click.stop
                                             :href="`/atendimentos/${atendimento.id}/edit`"
-                                            class="btn btn-sm btn-outline"
+                                            class="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-95e"
                                         >
                                             Editar
                                         </Link>
+
+                                        <!-- Excluir -->
+
+                                        <button      
+                                            @click.stop="excluir(atendimento.id)"
+                                            class="inline-flex items-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-red-700 hover:shadow-md active:scale-95"
+                                        >
+                                            Excluir
+                                        </button>
 
                                     </div>
 

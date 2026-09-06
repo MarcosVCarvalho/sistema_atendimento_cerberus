@@ -20,9 +20,22 @@ const props = defineProps({
     }
 })
 
+const dataHoraAtual = () => {
+    const agora = new Date()
+
+    const ano = agora.getFullYear()
+    const mes = String(agora.getMonth() + 1).padStart(2, '0')
+    const dia = String(agora.getDate()).padStart(2, '0')
+    const hora = String(agora.getHours()).padStart(2, '0')
+    const minuto = String(agora.getMinutes()).padStart(2, '0')
+
+    return `${ano}-${mes}-${dia}T${hora}:${minuto}`
+}
+
 const form = reactive({
     paciente_id: props.pacienteSelecionado ?? '',
     tipo_atendimento_id: '',
+    data_hora: dataHoraAtual(),
     observacoes: '',
     encaminhamentos: '',
 })
@@ -204,6 +217,35 @@ const voltar = () => {
                                     {{ erros.tipo_atendimento_id[0] }}
                                 </span>
 
+                            </label>
+
+                        </div>
+
+                        <!-- Data e hora do atendimento -->
+                        <div class="form-control mb-6">
+
+                            <label class="label">
+                                <span class="label-text font-semibold text-slate-700">
+                                    Data e hora do atendimento
+                                </span>
+                            </label>
+
+                            <input
+                                v-model="form.data_hora"
+                                type="datetime-local"
+                                class="input input-bordered w-full"
+                                :class="{
+                                    'input-error': erros.data_hora
+                                }"
+                            />
+
+                            <label
+                                v-if="erros.data_hora"
+                                class="label"
+                            >
+                                <span class="label-text-alt text-error">
+                                    {{ erros.data_hora }}
+                                </span>
                             </label>
 
                         </div>

@@ -123,48 +123,33 @@ const formatarDataHora = (data) => {
 
 
                 <!-- Informações -->
-
                 <div class="p-6">
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Cabeçalho do atendimento -->
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 
-                        <!-- Paciente -->
+                        <div class="min-w-0">
 
-                        <div>
-
-                            <p class="text-sm font-medium text-slate-500 mb-1">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
                                 Paciente
                             </p>
 
-                            <p class="text-base font-semibold text-slate-800">
+                            <h2 class="mt-1 text-xl font-bold text-slate-800">
                                 {{ atendimento.paciente?.nome ?? 'Não informado' }}
+                            </h2>
+
+                            <p class="mt-1 text-sm text-slate-500">
+                                CPF:
+                                <span class="font-medium text-slate-700">
+                                    {{ atendimento.paciente?.cpf ?? 'Não informado' }}
+                                </span>
                             </p>
 
                         </div>
 
 
-                        <!-- CPF -->
-
-                        <div>
-
-                            <p class="text-sm font-medium text-slate-500 mb-1">
-                                CPF
-                            </p>
-
-                            <p class="text-base font-semibold text-slate-800">
-                                {{ atendimento.paciente?.cpf ?? 'Não informado' }}
-                            </p>
-
-                        </div>
-
-
-                        <!-- Tipo -->
-
-                        <div>
-
-                            <p class="text-sm font-medium text-slate-500 mb-1">
-                                Tipo de atendimento
-                            </p>
+                        <!-- Tipo + data -->
+                        <div class="flex flex-col items-start gap-2 sm:items-end">
 
                             <span
                                 class="inline-flex items-center rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-semibold text-indigo-700"
@@ -172,33 +157,81 @@ const formatarDataHora = (data) => {
                                 {{ atendimento.tipo_atendimento?.nome ?? 'Não informado' }}
                             </span>
 
-                        </div>
-
-
-                        <!-- Data e hora -->
-
-                        <div>
-
-                            <p class="text-sm font-medium text-slate-500 mb-1">
-                                Data e hora
-                            </p>
-
-                            <p class="text-base font-semibold text-slate-800">
+                            <p class="text-sm font-medium text-slate-500">
                                 {{ formatarDataHora(atendimento.data_hora) }}
                             </p>
 
                         </div>
 
+                    </div>
+
+
+                    <!-- Separador -->
+                    <div class="my-6 border-t border-slate-200"></div>
+
+                    <!-- Endereço -->
+                    <div class="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
+
+                        <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                            Endereço
+                        </p>
+
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+                            <!-- Rua -->
+                            <div>
+                                <p class="text-xs font-medium text-slate-400">
+                                    Rua
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-slate-700">
+                                    {{ atendimento.paciente?.rua ?? 'Não informado' }}
+                                </p>
+                            </div>
+
+
+                            <!-- Bairro -->
+                            <div>
+                                <p class="text-xs font-medium text-slate-400">
+                                    Bairro
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-slate-700">
+                                    {{ atendimento.paciente?.bairro ?? 'Não informado' }}
+                                </p>
+                            </div>
+
+
+                            <!-- Cidade -->
+                            <div>
+                                <p class="text-xs font-medium text-slate-400">
+                                    Cidade
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-slate-700">
+                                    {{ atendimento.paciente?.cidade ?? 'Não informado' }}
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Separador -->
+                    <div class="my-6 border-t border-slate-200"></div>
+
+
+                    <!-- Contatos -->
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
 
                         <!-- Telefone -->
+                        <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
 
-                        <div>
-
-                            <p class="text-sm font-medium text-slate-500 mb-1">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
                                 Telefone
                             </p>
 
-                            <p class="text-base font-semibold text-slate-800">
+                            <p class="mt-1 text-sm font-semibold text-slate-700">
                                 {{ atendimento.paciente?.telefone ?? 'Não informado' }}
                             </p>
 
@@ -206,15 +239,38 @@ const formatarDataHora = (data) => {
 
 
                         <!-- WhatsApp -->
+                        <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
 
-                        <div>
-
-                            <p class="text-sm font-medium text-slate-500 mb-1">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
                                 WhatsApp
                             </p>
 
-                            <p class="text-base font-semibold text-slate-800">
+                            <p class="mt-1 text-sm font-semibold text-slate-700">
                                 {{ atendimento.paciente?.whatsapp ?? 'Não informado' }}
+                            </p>
+
+                        </div>
+
+
+                        <!-- Responsável -->
+                        <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                Responsável
+                            </p>
+
+                            <p
+                                v-if="atendimento.usuario"
+                                class="mt-1 text-sm font-semibold text-slate-700"
+                            >
+                                {{ atendimento.usuario.name }}
+                            </p>
+
+                            <p
+                                v-else
+                                class="mt-1 text-sm italic text-slate-400"
+                            >
+                                Não informado
                             </p>
 
                         </div>
@@ -223,27 +279,28 @@ const formatarDataHora = (data) => {
 
 
                     <!-- Observações -->
+                    <div class="mt-6">
 
-                    <div class="mt-8 pt-6 border-t border-slate-200">
+                        <div class="mb-2 flex items-center justify-between">
 
-                        <p class="text-sm font-medium text-slate-500 mb-2">
-                            Observações
-                        </p>
+                            <p class="text-sm font-semibold text-slate-700">
+                                Observações
+                            </p>
 
-                        <div
-                            class="rounded-xl bg-slate-50 border border-slate-200 p-4"
-                        >
+                        </div>
+
+                        <div class="rounded-xl border border-slate-200 bg-white p-4">
 
                             <p
                                 v-if="atendimento.observacoes"
-                                class="text-sm leading-6 text-slate-700 whitespace-pre-line"
+                                class="whitespace-pre-line text-sm leading-6 text-slate-600"
                             >
                                 {{ atendimento.observacoes }}
                             </p>
 
                             <p
                                 v-else
-                                class="text-sm text-slate-400 italic"
+                                class="text-sm italic text-slate-400"
                             >
                                 Nenhuma observação registrada.
                             </p>
@@ -254,27 +311,24 @@ const formatarDataHora = (data) => {
 
 
                     <!-- Encaminhamentos -->
+                    <div class="mt-5">
 
-                    <div class="mt-6">
-
-                        <p class="text-sm font-medium text-slate-500 mb-2">
+                        <p class="mb-2 text-sm font-semibold text-slate-700">
                             Encaminhamentos
                         </p>
 
-                        <div
-                            class="rounded-xl bg-slate-50 border border-slate-200 p-4"
-                        >
+                        <div class="rounded-xl border border-slate-200 bg-white p-4">
 
                             <p
                                 v-if="atendimento.encaminhamentos"
-                                class="text-sm leading-6 text-slate-700 whitespace-pre-line"
+                                class="whitespace-pre-line text-sm leading-6 text-slate-600"
                             >
                                 {{ atendimento.encaminhamentos }}
                             </p>
 
                             <p
                                 v-else
-                                class="text-sm text-slate-400 italic"
+                                class="text-sm italic text-slate-400"
                             >
                                 Nenhum encaminhamento registrado.
                             </p>
@@ -284,41 +338,9 @@ const formatarDataHora = (data) => {
                     </div>
 
 
-                    <!-- Responsável -->
-
-                    <div class="mt-6">
-
-                        <p class="text-sm font-medium text-slate-500 mb-2">
-                            Responsável pelo atendimento
-                        </p>
-
-                        <div
-                            class="rounded-xl bg-slate-50 border border-slate-200 p-4"
-                        >
-
-                            <p
-                                v-if="atendimento.usuario"
-                                class="text-sm font-semibold text-slate-700"
-                            >
-                                {{ atendimento.usuario.name }}
-                            </p>
-
-                            <p
-                                v-else
-                                class="text-sm text-slate-400 italic"
-                            >
-                                Usuário não informado.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
                     <!-- Ações -->
-
                     <div
-                        class="flex justify-end gap-3 mt-8 pt-6 border-t border-slate-200"
+                        class="mt-6 flex flex-col-reverse gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:justify-end"
                     >
 
                         <button
@@ -331,7 +353,7 @@ const formatarDataHora = (data) => {
 
                         <Link
                             :href="`/atendimentos/${atendimento.id}/edit`"
-                            class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-95"
+                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 hover:shadow-md active:scale-95"
                         >
                             Editar atendimento
                         </Link>

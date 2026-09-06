@@ -124,44 +124,51 @@ class AtendimentoController extends Controller
      * Registra um novo atendimento.
      */
     public function store(Request $request)
-    {
-        $dados = $request->validate([
-            'paciente_id' => [
-                'required',
-                'exists:pacientes,id',
-            ],
+{
+    $dados = $request->validate([
+        'paciente_id' => [
+            'required',
+            'exists:pacientes,id',
+        ],
 
-            'tipo_atendimento_id' => [
-                'required',
-                'exists:tipos_atendimento,id',
-            ],
+        'tipo_atendimento_id' => [
+            'required',
+            'exists:tipos_atendimento,id',
+        ],
 
-            'observacoes' => [
-                'nullable',
-                'string',
-            ],
+        'data_hora' => [
+            'required',
+            'date',
+        ],
 
-            'encaminhamentos' => [
-                'nullable',
-                'string',
-            ],
-        ]);
+        'observacoes' => [
+            'nullable',
+            'string',
+        ],
 
-        // A data/hora é definida automaticamente pelo sistema.
-        $dados['data_hora'] = now();
+        'encaminhamentos' => [
+            'nullable',
+            'string',
+        ],
+    ], [
+        'paciente_id.required' => 'O paciente é obrigatório.',
+        'paciente_id.exists' => 'O paciente selecionado não existe.',
 
-        // Se o atendimento estiver vinculado ao usuário autenticado,
-        // podemos definir o usuário automaticamente.
-        if (auth()->check()) {
-            $dados['usuario_id'] = auth()->id();
-        }
+        'tipo_atendimento_id.required' => 'O tipo de atendimento é obrigatório.',
+        'tipo_atendimento_id.exists' => 'O tipo de atendimento selecionado não existe.',
 
-        $atendimento = Atendimento::create($dados);
+        'data_hora.required' => 'A data e hora do atendimento são obrigatórias.',
+        'data_hora.date' => 'A data e hora informadas são inválidas.',
+    ]);
 
-        return redirect()
-            ->route('atendimentos.index')
-            ->with('success', 'Atendimento registrado com sucesso.');
-    }
+    $dados['usuario_id'] = auth()->id();
+
+    Atendimento::create($dados);
+
+    return redirect()
+        ->route('atendimentos.index')
+        ->with('success', 'Atendimento registrado com sucesso.');
+}
 
     /**
      * Exibe um atendimento específico.
@@ -205,45 +212,49 @@ class AtendimentoController extends Controller
      * Atualiza um atendimento.
      */
     public function update(Request $request, Atendimento $atendimento)
-    {
-        $dados = $request->validate([
-            'paciente_id' => [
-                'sometimes',
-                'exists:pacientes,id',
-            ],
+{
+    $dados = $request->validate([
+        'paciente_id' => [
+            'required',
+            'exists:pacientes,id',
+        ],
 
-            'tipo_atendimento_id' => [
-                'sometimes',
-                'exists:tipos_atendimento,id',
-            ],
+        'tipo_atendimento_id' => [
+            'required',
+            'exists:tipos_atendimento,id',
+        ],
 
-            'usuario_id' => [
-                'nullable',
-                'exists:users,id',
-            ],
+        'data_hora' => [
+            'required',
+            'date',
+        ],
 
-            'observacoes' => [
-                'nullable',
-                'string',
-            ],
+        'observacoes' => [
+            'nullable',
+            'string',
+        ],
 
-            'encaminhamentos' => [
-                'nullable',
-                'string',
-            ],
+        'encaminhamentos' => [
+            'nullable',
+            'string',
+        ],
+    ], [
+        'paciente_id.required' => 'O paciente é obrigatório.',
+        'paciente_id.exists' => 'O paciente selecionado não existe.',
 
-            'data_hora' => [
-                'sometimes',
-                'date',
-            ],
-        ]);
+        'tipo_atendimento_id.required' => 'O tipo de atendimento é obrigatório.',
+        'tipo_atendimento_id.exists' => 'O tipo de atendimento selecionado não existe.',
 
-        $atendimento->update($dados);
+        'data_hora.required' => 'A data e hora do atendimento são obrigatórias.',
+        'data_hora.date' => 'A data e hora informadas são inválidas.',
+    ]);
 
-        return redirect()
-            ->route('atendimentos.index')
-            ->with('success', 'Atendimento atualizado com sucesso.');
-    }
+    $atendimento->update($dados);
+
+    return redirect()
+        ->route('atendimentos.index')
+        ->with('success', 'Atendimento atualizado com sucesso.');
+}
 
     /**
      * Remove um atendimento.

@@ -221,36 +221,94 @@ function voltar() {
 
                         </div>
 
-                        <!-- Endereço -->
+                        <!-- Rua -->
                         <div class="form-control mb-6">
 
                             <label class="label">
-
                                 <span class="label-text font-semibold text-slate-700">
-                                    Endereço
+                                    Rua
                                 </span>
-
                             </label>
 
                             <input
-                                v-model="form.endereco"
+                                v-model="form.rua"
                                 type="text"
-                                placeholder="Rua, número, bairro..."
+                                placeholder="Nome da rua"
                                 class="input input-bordered w-full"
                                 :class="{
-                                    'input-error': erros.endereco
+                                    'input-error': erros.rua
                                 }"
                             />
 
                             <label
-                                v-if="erros.endereco"
+                                v-if="erros.rua"
                                 class="label"
                             >
-
                                 <span class="label-text-alt text-error">
-                                    {{ erros.endereco }}
+                                    {{ erros.rua }}
                                 </span>
+                            </label>
 
+                        </div>
+
+
+                        <!-- Bairro -->
+                        <div class="form-control mb-6">
+
+                            <label class="label">
+                                <span class="label-text font-semibold text-slate-700">
+                                    Bairro
+                                </span>
+                            </label>
+
+                            <input
+                                v-model="form.bairro"
+                                type="text"
+                                placeholder="Nome do bairro"
+                                class="input input-bordered w-full"
+                                :class="{
+                                    'input-error': erros.bairro
+                                }"
+                            />
+
+                            <label
+                                v-if="erros.bairro"
+                                class="label"
+                            >
+                                <span class="label-text-alt text-error">
+                                    {{ erros.bairro }}
+                                </span>
+                            </label>
+
+                        </div>
+
+
+                        <!-- Cidade -->
+                        <div class="form-control mb-6">
+
+                            <label class="label">
+                                <span class="label-text font-semibold text-slate-700">
+                                    Cidade
+                                </span>
+                            </label>
+
+                            <input
+                                v-model="form.cidade"
+                                type="text"
+                                placeholder="Nome da cidade"
+                                class="input input-bordered w-full"
+                                :class="{
+                                    'input-error': erros.cidade
+                                }"
+                            />
+
+                            <label
+                                v-if="erros.cidade"
+                                class="label"
+                            >
+                                <span class="label-text-alt text-error">
+                                    {{ erros.cidade }}
+                                </span>
                             </label>
 
                         </div>

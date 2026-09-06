@@ -7,43 +7,68 @@ import AppLayout from '/resources/js/Layouts/AppLayout.vue'
 const props = defineProps({
     filtros: {
         type: Object,
-        required: true
+        required: true,
     },
 
     resumo: {
         type: Object,
-        required: true
+        required: true,
     },
 
     porTipo: {
         type: Array,
-        default: () => []
+        default: () => [],
     },
 
     porUsuario: {
         type: Array,
-        default: () => []
+        default: () => [],
     },
 
     porDia: {
         type: Array,
-        default: () => []
-    }
+        default: () => [],
+    },
+
+    porBairro: {
+        type: Array,
+        default: () => [],
+    },
+
+    porCidade: {
+        type: Array,
+        default: () => [],
+    },
 })
+
+
 
 const filtro = reactive({
     data_inicio: props.filtros.data_inicio,
-    data_fim: props.filtros.data_fim
+    data_fim: props.filtros.data_fim,
+    cidade: props.filtros.cidade ?? '',
+    bairro: props.filtros.bairro ?? '',
 })
 
-const gerarRelatorio = () => {
+const bairrosFiltrados = computed(() => {
+    if (!filtro.cidade) {
+        return props.bairros
+    }
 
+    return props.bairros.filter(
+        item => item.cidade === filtro.cidade
+    )
+})
+
+function gerarRelatorio() {
     router.get('/relatorios', {
         data_inicio: filtro.data_inicio,
-        data_fim: filtro.data_fim
+        data_fim: filtro.data_fim,
+        cidade: filtro.cidade || undefined,
+        bairro: filtro.bairro || undefined,
     }, {
         preserveState: true,
-        preserveScroll: true
+        preserveScroll: true,
     })
 }
 
@@ -205,6 +230,76 @@ const exportarPdf = () => {
                         >
 
                     </div>
+
+                </div>
+
+                <!-- Localização -->
+
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+                    <!-- Cidade -->
+
+                    <div class="form-control">
+
+                    <label class="label">
+                        <span class="label-text font-semibold text-slate-700">
+                            Cidade
+                        </span>
+                    </label>
+
+                    <select
+                        v-model="filtro.cidade"
+                        class="select select-bordered w-full"
+                        @change="filtro.bairro = ''"
+                    >
+
+                        <option value="">
+                            Todas as cidades
+                        </option>
+
+                        <option
+                            v-for="cidade in props.cidades"
+                            :key="cidade"
+                            :value="cidade"
+                        >
+                            {{ cidade }}
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                    <!-- Bairro -->
+
+                    <div class="form-control">
+
+                    <label class="label">
+                        <span class="label-text font-semibold text-slate-700">
+                            Bairro
+                        </span>
+                    </label>
+
+                    <select
+                        v-model="filtro.bairro"
+                        class="select select-bordered w-full"
+                    >
+
+                        <option value="">
+                            Todos os bairros
+                        </option>
+
+                        <option
+                            v-for="item in bairrosFiltrados"
+                            :key="`${item.cidade}-${item.bairro}`"
+                            :value="item.bairro"
+                        >
+                            {{ item.bairro }}
+                        </option>
+
+                    </select>
+
+                </div>
 
                 </div>
 
@@ -640,6 +735,82 @@ const exportarPdf = () => {
                             </tbody>
 
                         </table>
+
+                    </div>
+
+                </div>
+
+                <!-- Atendimentos por bairro -->
+
+                <div class="mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                    <div class="border-b border-slate-100 p-6">
+
+                        <h2 class="text-lg font-bold text-slate-800">
+                            Atendimentos por bairro
+                        </h2>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            Distribuição dos atendimentos conforme o bairro do paciente.
+                        </p>
+
+                    </div>
+
+
+                    <div class="p-6">
+
+                        <div
+                            v-if="porBairro.length === 0"
+                            class="py-8 text-center text-sm text-slate-500"
+                        >
+                            Nenhum atendimento encontrado.
+                        </div>
+
+
+                        <div
+                            v-else
+                            class="overflow-x-auto"
+                        >
+
+                            <table class="w-full text-left">
+
+                                <thead>
+                                    <tr class="border-b border-slate-200">
+
+                                        <th class="px-4 py-3 text-sm font-semibold text-slate-600">
+                                            Bairro
+                                        </th>
+
+                                        <th class="px-4 py-3 text-right text-sm font-semibold text-slate-600">
+                                            Atendimentos
+                                        </th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr
+                                        v-for="item in porBairro"
+                                        :key="item.bairro"
+                                        class="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                                    >
+
+                                        <td class="px-4 py-3 text-sm font-medium text-slate-700">
+                                            {{ item.bairro }}
+                                        </td>
+
+                                        <td class="px-4 py-3 text-right text-sm font-bold text-indigo-600">
+                                            {{ item.quantidade }}
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
 
                     </div>
 

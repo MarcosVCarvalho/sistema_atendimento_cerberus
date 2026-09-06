@@ -23,7 +23,21 @@ class PacienteFactory extends Factory
             'cpf' => $this->faker->unique()->numerify('###.###.###-##'),
             'telefone' => $this->faker->phoneNumber(),
             'whatsapp' => $this->faker->phoneNumber(),
-            'endereco' => $this->faker->address(),
-        ];
-    }
-}
+            'rua' => fake()->streetName(),
+            'bairro' => fake()->randomElement([
+                'Centro',
+                'São José',
+                'Nova Parnaíba',
+                'Boa Esperança',
+                'Piauí',
+                'São Vicente',
+            ]),
+            'cidade' => fake()->randomElement([
+                'Parnaíba',
+                'Luís Correia',
+                'Buriti dos Lopes',
+                'Ilha Grande',
+            ]),
+                    ];
+                }
+            }

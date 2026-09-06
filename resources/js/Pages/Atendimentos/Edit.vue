@@ -21,9 +21,16 @@ const props = defineProps({
     },
 })
 
+const formatarDataHora = (data) => {
+    if (!data) return ''
+
+    return data.replace(' ', 'T').slice(0, 16)
+}
+
 const form = reactive({
     paciente_id: props.atendimento.paciente_id ?? '',
     tipo_atendimento_id: props.atendimento.tipo_atendimento_id ?? '',
+     data_hora: formatarDataHora(props.atendimento.data_hora),
     observacoes: props.atendimento.observacoes ?? '',
     encaminhamentos: props.atendimento.encaminhamentos ?? '',
 })
@@ -204,6 +211,42 @@ const voltar = () => {
 
                                 <span class="label-text-alt text-error">
                                     {{ erros.tipo_atendimento_id[0] }}
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                        <!-- Data e hora -->
+
+                        <div class="form-control mb-5">
+
+                            <label class="label">
+
+                                <span
+                                    class="label-text font-semibold text-slate-700"
+                                >
+                                    Data e hora do atendimento *
+                                </span>
+
+                            </label>
+
+                            <input
+                                v-model="form.data_hora"
+                                type="datetime-local"
+                                class="input input-bordered w-full"
+                                :class="{
+                                    'input-error': erros.data_hora
+                                }"
+                            />
+
+                            <label
+                                v-if="erros.data_hora"
+                                class="label"
+                            >
+
+                                <span class="label-text-alt text-error">
+                                    {{ erros.data_hora[0] }}
                                 </span>
 
                             </label>
