@@ -74,11 +74,13 @@ observações;
 encaminhamentos;
 profissional responsável;
 data e hora.
+
 ## 4. Consultar
 
 O histórico do paciente pode ser consultado posteriormente, permitindo visualizar seus atendimentos anteriores.
 
-⚙️ Funcionalidades
+## ⚙️ Funcionalidades
+
 👤 Pacientes
 Cadastro de pacientes;
 Edição de pacientes;
@@ -96,7 +98,8 @@ Bairro;
 Cidade;
 Histórico de atendimentos;
 Exclusão lógica através de Soft Delete.
-🏥 Atendimentos
+
+## 🏥 Atendimentos
 Cadastro de atendimento;
 Seleção do paciente;
 Seleção do tipo de atendimento;
@@ -112,6 +115,7 @@ Busca por CPF;
 Busca por observações;
 Busca por encaminhamentos;
 Busca por data.
+
 ## 📋 Tipos de atendimento
 
 O sistema permite administrar os tipos de atendimento disponíveis.
@@ -135,6 +139,7 @@ cadastrados;
 editados;
 consultados;
 removidos logicamente.
+
 ## 👥 Usuários
 
 O sistema possui gerenciamento de usuários com controle de permissões.
