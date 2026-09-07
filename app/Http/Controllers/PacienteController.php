@@ -128,10 +128,10 @@ class PacienteController extends Controller
         'cidade.max' => 'A cidade não pode ultrapassar 255 caracteres.',
     ]);
 
-    Paciente::create($dados);
+    $paciente = Paciente::create($dados);
 
     return redirect()
-        ->route('pacientes.index')
+        ->route('pacientes.ficha', $paciente)
         ->with('success', 'Paciente cadastrado com sucesso.');
 }
 

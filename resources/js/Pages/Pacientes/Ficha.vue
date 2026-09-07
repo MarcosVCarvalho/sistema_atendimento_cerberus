@@ -22,6 +22,12 @@ function voltar() {
 function editar() {
     router.visit(`/pacientes/${props.paciente.id}/edit`)
 }
+
+function atendimento(id) {
+    router.visit(`/atendimentos/create?paciente_id=${id}`)
+}
+
+
 </script>
 
 <template>
@@ -62,6 +68,15 @@ function editar() {
                         >
                             Editar paciente
                         </button>
+
+                        <button
+                            type="button"
+                            @click.stop="atendimento(paciente.id)"
+                            class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                        >
+                            Novo atendimento
+                        </button>
+
                     </div>
 
                 </div>

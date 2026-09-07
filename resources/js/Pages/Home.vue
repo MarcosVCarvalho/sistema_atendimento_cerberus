@@ -39,7 +39,7 @@ defineProps({
         </div>
 
         <!-- Indicadores -->
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-2">
 
             <!-- Pacientes -->
             <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -91,30 +91,7 @@ defineProps({
                 </div>
             </div>
 
-            <!-- Pendentes -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-slate-500">
-                            Pendentes
-                        </p>
-
-                        <p class="mt-2 text-3xl font-bold text-slate-900">
-                            {{ estatisticas.pendentes }}
-                        </p>
-
-                        <p class="mt-2 text-xs text-slate-500">
-                            Aguardando atendimento
-                        </p>
-                    </div>
-
-                    <div
-                        class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-600"
-                    >
-                        !
-                    </div>
-                </div>
-            </div>
+            
 
         </div>
 

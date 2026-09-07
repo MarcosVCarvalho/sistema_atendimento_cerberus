@@ -45,12 +45,12 @@ const isActive = (path) => {
             <div
                 class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-lg font-bold text-white shadow-sm"
             >
-                C
+                P
             </div>
 
             <div>
                 <h1 class="text-lg font-bold text-slate-900">
-                    Cerberus
+                    Prisma Saúde
                 </h1>
 
                 <p class="text-xs text-slate-500">
