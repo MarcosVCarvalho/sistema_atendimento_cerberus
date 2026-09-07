@@ -2,53 +2,17 @@
 
 Sistema web desenvolvido para gerenciamento de pacientes e atendimentos, permitindo centralizar informações, registrar atendimentos, consultar históricos e gerar relatórios para acompanhamento da demanda.
 
-O projeto foi desenvolvido com foco em organização, segurança, rastreabilidade das operações e facilidade de uso para equipes responsáveis pelo atendimento.
+O projeto foi desenvolvido utilizando **Laravel, Vue.js, Inertia.js, MySQL e Tailwind CSS**, com foco em organização, segurança, rastreabilidade e facilidade de uso.
 
 ---
 
-## 📋 Sobre o projeto
+## 📌 Sobre o projeto
 
-O Sistema de Controle de Atendimentos tem como objetivo centralizar o gerenciamento de pacientes e seus respectivos atendimentos em uma única aplicação.
+O Sistema de Controle de Atendimentos foi desenvolvido com o objetivo de centralizar o gerenciamento de pacientes e seus atendimentos em uma única aplicação.
 
-A solução permite:
+A solução busca reduzir a dependência de registros manuais, planilhas e informações descentralizadas, proporcionando um fluxo mais organizado para cadastro, atendimento, registro e consulta.
 
-- cadastrar e gerenciar pacientes;
-- registrar atendimentos;
-- consultar o histórico de cada paciente;
-- cadastrar tipos de atendimento;
-- gerenciar usuários e permissões;
-- acompanhar indicadores através de relatórios;
-- filtrar atendimentos por período, cidade e bairro;
-- exportar relatórios em PDF;
-- registrar ações importantes realizadas no sistema através de auditoria.
-
-O sistema foi desenvolvido utilizando Laravel no backend e Vue.js com Inertia.js no frontend.
-
----
-
-## 🎯 Objetivos
-
-### Objetivo principal
-
-Centralizar o controle de pacientes e atendimentos, reduzindo a dependência de processos manuais, planilhas e registros descentralizados.
-
-### Objetivos específicos
-
-- Facilitar o cadastro de pacientes;
-- Permitir localização rápida de pacientes;
-- Manter o histórico de atendimentos;
-- Organizar os tipos de atendimento;
-- Controlar usuários e permissões;
-- Gerar indicadores para acompanhamento da demanda;
-- Registrar ações realizadas no sistema;
-- Garantir maior integridade e segurança dos dados.
-
----
-
-## 🔄 Fluxo do atendimento
-
-O sistema foi estruturado considerando o seguinte fluxo:
-
+### Fluxo principal
 
 Cadastrar
     ↓
@@ -58,30 +22,67 @@ Registrar
     ↓
 Consultar
 
-## 1. Cadastrar
+## 🎯 Objetivos
+Centralizar informações dos pacientes;
+Facilitar o registro de atendimentos;
+Permitir consulta do histórico dos pacientes;
+Organizar os tipos de atendimento;
+Controlar usuários e permissões;
+Gerar relatórios e indicadores;
+Registrar ações importantes realizadas no sistema;
+Melhorar a organização e rastreabilidade das informações.
 
-O paciente é cadastrado no sistema com suas informações pessoais e endereço.
+## 🖥️ Screenshots
 
-## 2. Atender
+### Dashboard
 
-Um atendimento é registrado para o paciente, permitindo selecionar o tipo de atendimento e a data.
+![Dashboard](docs/screenshots/dashboard.png)
 
-## 3. Registrar
+---
 
-São armazenadas informações como:
+### Pacientes
 
-observações;
-encaminhamentos;
-profissional responsável;
-data e hora.
+![Pacientes](docs/screenshots/pacientes.png)
 
-## 4. Consultar
+---
 
-O histórico do paciente pode ser consultado posteriormente, permitindo visualizar seus atendimentos anteriores.
+### Ficha do paciente
+
+![Ficha do paciente](docs/screenshots/ficha-paciente.png)
+
+---
+
+### Atendimentos
+
+![Atendimentos](docs/screenshots/atendimentos.png)
+
+---
+
+### Relatórios
+
+![Relatórios](docs/screenshots/relatorios.png)
+
+---
+
+### Auditoria
+
+![Auditoria](docs/screenshots/auditoria.png)
+
+## 📚 Documentação
+
+A documentação detalhada do projeto está disponível na pasta `docs`.
+
+### 📄 Documentação do sistema
+
+[Visualizar documentação](docs/Documentacao_Sistema_Controle_Atendimentos.docx)
+
+### 🎤 Apresentação do projeto
+
+[Visualizar apresentação](docs/Controle%20de%20Atendimento%20Apresentação.pdf)
 
 ## ⚙️ Funcionalidades
 
-👤 Pacientes
+## 👤 Pacientes
 Cadastro de pacientes;
 Edição de pacientes;
 Consulta de pacientes;
@@ -89,36 +90,33 @@ Busca por nome;
 Busca por CPF;
 Busca por telefone;
 Busca por WhatsApp;
-Validação matemática do CPF;
-Controle de CPF duplicado;
+Validação matemática de CPF;
+Prevenção de CPF duplicado;
 Cadastro de endereço;
-Informações separadas de:
-Rua;
-Bairro;
-Cidade;
-Histórico de atendimentos;
-Exclusão lógica através de Soft Delete.
+Rua, bairro e cidade separados;
+Consulta do histórico de atendimentos;
+Exclusão lógica utilizando Soft Delete.
 
 ## 🏥 Atendimentos
-Cadastro de atendimento;
+Cadastro de atendimentos;
 Seleção do paciente;
 Seleção do tipo de atendimento;
-Definição da data e hora;
+Definição de data e hora;
 Registro de observações;
 Registro de encaminhamentos;
 Identificação do usuário responsável;
 Edição de atendimentos;
 Consulta de atendimentos;
 Busca por paciente;
-Busca por tipo de atendimento;
 Busca por CPF;
+Busca por tipo de atendimento;
 Busca por observações;
 Busca por encaminhamentos;
 Busca por data.
 
 ## 📋 Tipos de atendimento
 
-O sistema permite administrar os tipos de atendimento disponíveis.
+O sistema permite cadastrar, editar, consultar e remover logicamente os tipos de atendimento.
 
 Exemplos:
 
@@ -133,20 +131,13 @@ Gastroenterologia;
 Cirurgia Plástica;
 Otorrinolaringologia.
 
-Os tipos podem ser:
-
-cadastrados;
-editados;
-consultados;
-removidos logicamente.
-
 ## 👥 Usuários
 
-O sistema possui gerenciamento de usuários com controle de permissões.
+O sistema possui gerenciamento de usuários com controle de acesso.
 
 Administrador
 
-Possui acesso a funcionalidades administrativas, incluindo:
+Possui acesso às funcionalidades administrativas, como:
 
 gerenciamento de usuários;
 relatórios;
@@ -154,89 +145,29 @@ auditoria;
 gerenciamento dos demais recursos do sistema.
 Usuário comum
 
-Possui acesso às funcionalidades operacionais necessárias para realizar os atendimentos, sem acesso às áreas administrativas restritas.
+Possui acesso às funcionalidades operacionais necessárias para realização dos atendimentos, sem acesso às áreas administrativas restritas.
 
-## 🔐 Segurança
+## 📊 Dashboard e indicadores
 
-A aplicação possui diferentes mecanismos de segurança e controle de acesso.
+O dashboard apresenta informações gerais do sistema para facilitar o acompanhamento da utilização da aplicação.
 
-Autenticação
+Entre os dados apresentados estão:
 
-As funcionalidades do sistema são protegidas por autenticação.
+quantidade de pacientes;
+atendimentos realizados;
+informações relacionadas à demanda;
+resumo dos tipos de atendimento.
 
-Usuários precisam estar autenticados para acessar as áreas protegidas.
-
-Autorização
-
-O sistema utiliza Middleware e Policies para controlar permissões.
-
-A aplicação diferencia:
-
-Autenticação
-"Quem é o usuário?"
-
-        ↓
-
-Autorização
-"O que esse usuário pode fazer?"
-
-O acesso administrativo é protegido através de middleware específico.
-
-Além disso, Policies são utilizadas para autorização de ações sobre recursos.
-
-## 🗑️ Soft Delete
-
-Recursos importantes utilizam exclusão lógica.
-
-Ao invés de remover imediatamente um registro do banco de dados, o sistema registra a data de exclusão.
-
-Isso permite preservar os dados e possibilita futuras funcionalidades de recuperação.
-
-## 📝 Auditoria
-
-O sistema possui mecanismo de auditoria para registrar operações importantes.
-
-A auditoria registra informações como:
-
-usuário responsável;
-ação realizada;
-entidade afetada;
-identificador da entidade;
-descrição da operação;
-data e hora.
-
-Exemplo conceitual:
-
-Administrador
-      ↓
-Atualizou paciente
-      ↓
-Paciente #25
-      ↓
-05/09/2026 14:32
-
-A implementação utiliza Observers para registrar automaticamente determinadas operações realizadas nos Models.
-
-São monitoradas entidades como:
-
-Pacientes;
-Atendimentos;
-Tipos de atendimento.
-
-A geração de relatórios também pode ser registrada através de Events e Listeners.
-
-## 📊 Relatórios
+## 📈 Relatórios
 
 O sistema possui um módulo de relatórios para análise dos atendimentos.
-
-É possível consultar informações como:
 
 Indicadores
 Total de atendimentos;
 Pacientes atendidos;
 Tipos de atendimento utilizados;
 Usuários responsáveis pelos atendimentos.
-Distribuições
+Distribuição dos atendimentos
 Atendimentos por tipo;
 Atendimentos por usuário;
 Atendimentos por dia;
@@ -252,43 +183,75 @@ Cidade;
 Bairro.
 Exportação
 
-Os relatórios podem ser exportados em formato PDF.
+Os relatórios podem ser exportados em PDF.
 
-## 🛠️ Tecnologias utilizadas
-Backend
-PHP 8.4+
-Laravel
-Eloquent ORM
-MySQL
-Composer
-Frontend
-Vue.js 3
-Inertia.js
-JavaScript
-Tailwind CSS
-DaisyUI
-Vite
-Autenticação e infraestrutura
-Laravel Breeze
-Ziggy
-Middleware
-Policies
-Events
-Listeners
-Observers
-Testes
-PHPUnit / Pest
-Banco de dados separado para testes
-Versionamento
-Git
-GitHub
+## 🔐 Segurança
 
-## 🏗️ Arquitetura
+A aplicação possui mecanismos de autenticação e autorização para proteger as funcionalidades do sistema.
 
-A aplicação utiliza a arquitetura tradicional do Laravel, separando responsabilidades entre diferentes camadas.
+Autenticação
+
+As áreas protegidas da aplicação exigem que o usuário esteja autenticado.
+
+Autorização
+
+O projeto utiliza Middleware e Policies para controlar o acesso.
+
+Autenticação
+     ↓
+Quem é o usuário?
+
+     ↓
+
+Autorização
+     ↓
+O que esse usuário pode fazer?
+
+As áreas administrativas são protegidas por middleware específico.
+
+As Policies são utilizadas para controlar ações relacionadas aos recursos da aplicação.
+
+## 🗑️ Soft Delete
+
+Algumas entidades utilizam Soft Delete.
+
+Ao invés de excluir imediatamente o registro do banco de dados, o sistema registra a data de exclusão.
+
+Isso permite preservar os dados e possibilita futuras funcionalidades de recuperação.
+
+## 📝 Auditoria
+
+O sistema possui um mecanismo de auditoria para registrar ações importantes realizadas pelos usuários.
+
+São armazenadas informações como:
+
+usuário responsável;
+ação realizada;
+entidade afetada;
+identificador da entidade;
+descrição;
+data e hora.
+
+Exemplo:
+
+Administrador
+      ↓
+Atualizou paciente
+      ↓
+Paciente #25
+      ↓
+Data e hora da operação
+
+A auditoria utiliza Observers para registrar automaticamente determinadas operações realizadas nos Models.
+
+Também são utilizados Events e Listeners para registrar eventos específicos, como a geração de relatórios.
+
+## 🧩 Arquitetura
+
+A aplicação utiliza a estrutura tradicional do Laravel, separando responsabilidades entre Controllers, Models, Policies, Middleware, Observers, Events e Listeners.
 
                     ┌─────────────────────┐
-                    │      Vue.js 3       │
+                    │       Vue.js        │
                     │      Frontend       │
                     └──────────┬──────────┘
                                │
@@ -314,8 +277,128 @@ A aplicação utiliza a arquitetura tradicional do Laravel, separando responsabi
     Auditoria     Listeners
                      │
                      ↓
-                  MySQL
-                  
+                   MySQL
+                   
+## 🧠 Conceitos e padrões utilizados
+
+O projeto utiliza recursos do Laravel e conceitos de Design Patterns para resolver problemas reais da aplicação.
+
+Observer
+
+Utilizado para registrar automaticamente ações realizadas sobre entidades.
+
+Model
+  ↓
+Observer
+  ↓
+Auditoria
+Event / Listener
+
+Utilizado para desacoplar determinadas ações do fluxo principal.
+
+Exemplo:
+
+Relatório gerado
+       ↓
+     Event
+       ↓
+    Listener
+       ↓
+   Auditoria
+Policy
+
+Utilizada para controlar autorização de ações específicas sobre recursos.
+
+Middleware
+
+Utilizado para controlar o acesso a áreas da aplicação.
+
+## 🗄️ Banco de dados
+
+O banco de dados é gerenciado através das Migrations do Laravel.
+
+Principais entidades:
+
+users
+  │
+  ├───────────────┐
+  │               │
+  ↓               ↓
+atendimentos   auditorias
+  │
+  ├──────────────→ pacientes
+  │
+  └──────────────→ tipos_atendimento
+Principais relacionamentos
+Paciente
+    │
+    └── possui vários atendimentos
+
+Atendimento
+    ├── pertence a um paciente
+    ├── pertence a um tipo de atendimento
+    └── pertence a um usuário
+
+Tipo de Atendimento
+    └── possui vários atendimentos
+
+Usuário
+    ├── realiza atendimentos
+    └── possui ações registradas na auditoria
+    
+## 🧪 Testes
+
+O projeto possui testes automatizados para validar comportamentos importantes da aplicação.
+
+Entre os cenários estão:
+
+autorização de usuários;
+acesso administrativo;
+regras relacionadas aos recursos;
+relatórios;
+auditoria.
+
+Os testes utilizam um banco de dados separado do ambiente de desenvolvimento.
+
+Para executar os testes:
+
+php artisan test
+
+
+## 🛠️ Tecnologias utilizadas
+Backend
+PHP 8.4+
+Laravel
+Eloquent ORM
+MySQL
+Composer
+Frontend
+Vue.js 3
+Inertia.js
+JavaScript
+Tailwind CSS
+DaisyUI
+Vite
+Autenticação e autorização
+Laravel Breeze
+Middleware
+Policies
+Ziggy
+Arquitetura e recursos
+Eloquent ORM
+Migrations
+Seeders
+Observers
+Events
+Listeners
+Soft Delete
+Testes
+Pest / PHPUnit
+Banco de dados separado para testes
+Versionamento
+Git
+GitHub
+
 ## 📁 Estrutura do projeto
 sistema_atendimento_cerberus/
 │
@@ -334,6 +417,18 @@ sistema_atendimento_cerberus/
 │   ├── factories/
 │   ├── migrations/
 │   └── seeders/
+│
+├── docs/
+│   ├── screenshots/
+│   │   ├── atendimentos.png
+│   │   ├── auditoria.png
+│   │   ├── dashboard.png
+│   │   ├── ficha-paciente.png
+│   │   ├── pacientes.png
+│   │   └── relatorios.png
+│   │
+│   ├── Controle de Atendimento Apresentação.pdf
+│   └── Documentacao_Sistema_Controle_Atendimentos.docx
 │
 ├── resources/
 │   ├── css/
@@ -357,121 +452,16 @@ sistema_atendimento_cerberus/
 ├── vite.config.js
 └── README.md
 
-## 🧩 Padrões e recursos utilizados
-
-Durante o desenvolvimento foram utilizados recursos e conceitos de arquitetura e Design Patterns para resolver problemas reais da aplicação.
-
-Observer
-
-Utilizado para registrar automaticamente ações realizadas sobre entidades do sistema.
-
-Model
-  ↓
-Observer
-  ↓
-Auditoria
-
-Isso evita espalhar lógica de auditoria por diversos Controllers.
-
-Event / Listener
-
-Utilizado para desacoplar determinadas ações do fluxo principal.
-
-Um exemplo é o registro da geração de relatórios:
-
-Relatório gerado
-       ↓
-     Event
-       ↓
-    Listener
-       ↓
-   Auditoria
-Policy
-
-Utilizada para concentrar regras de autorização relacionadas aos recursos.
-
-Exemplo:
-
-$this->authorize('update', $paciente);
-Middleware
-
-Utilizado para controlar acesso a áreas específicas da aplicação.
-
-Exemplo:
-
-Usuário autenticado
-        ↓
-   Middleware
-        ↓
-   Área administrativa
-   
-## 🗄️ Banco de dados
-
-O banco de dados é gerenciado através das migrations do Laravel.
-
-Principais entidades:
-
-users
-   │
-   ├──────────────┐
-   │              │
-   ↓              ↓
-atendimentos   auditorias
-   │
-   ├──────────────→ pacientes
-   │
-   └──────────────→ tipos_atendimento
-Relacionamentos principais
-Paciente
-    │
-    └── possui vários atendimentos
-
-Atendimento
-    ├── pertence a um paciente
-    ├── pertence a um tipo de atendimento
-    └── pertence a um usuário
-
-Tipo de Atendimento
-    └── possui vários atendimentos
-
-Usuário
-    ├── realiza atendimentos
-    └── realiza ações registradas na auditoria
-    
-## 🧪 Testes
-
-O projeto possui testes automatizados para validar comportamentos importantes da aplicação.
-
-Entre os cenários testados estão:
-
-autorização de usuários;
-acesso administrativo;
-regras de negócio;
-relatórios;
-auditoria.
-
-Os testes utilizam um banco de dados separado para evitar alterações no banco utilizado durante o desenvolvimento.
-
-## Para executar:
-
-php artisan test
-🚀 Instalação
+## 🚀 Instalação
 Requisitos
-
-Antes de executar o projeto, certifique-se de possuir:
-
 PHP 8.4+
 Composer
 Node.js
 npm
 MySQL
 Git
-
 1. Clonar o projeto
 git clone https://github.com/MarcosVCarvalho/sistema_atendimento_cerberus.git
-
-Entre na pasta:
-
 cd sistema_atendimento_cerberus
 2. Instalar dependências PHP
 composer install
@@ -479,15 +469,14 @@ composer install
 npm install
 4. Configurar o ambiente
 
-Copie o arquivo de configuração:
+Copie o arquivo .env.example:
 
+Linux / macOS
 cp .env.example .env
-
-No Windows PowerShell:
-
+Windows PowerShell
 Copy-Item .env.example .env
 
-Configure no .env as informações do banco de dados.
+Configure as informações do banco de dados no .env.
 
 Exemplo:
 
@@ -501,7 +490,7 @@ DB_PASSWORD=
 php artisan key:generate
 6. Executar migrations e seeders
 php artisan migrate --seed
-7. Iniciar o servidor Laravel
+7. Iniciar o Laravel
 php artisan serve
 8. Iniciar o Vite
 
@@ -514,7 +503,7 @@ A aplicação estará disponível em:
 http://127.0.0.1:8000
 🔑 Usuário de demonstração
 
-Para ambiente de demonstração:
+Para o ambiente de demonstração:
 
 E-mail:
 admin@prefeitura.test
@@ -522,60 +511,39 @@ admin@prefeitura.test
 Senha:
 password
 
-⚠️ Essas credenciais são destinadas apenas ao ambiente de demonstração/desenvolvimento. Em produção, devem ser substituídas.
-
-## 🖥️ Interface
-
-A aplicação utiliza uma interface construída com Vue.js, Inertia.js e Tailwind CSS.
-
-Principais áreas:
-
-Dashboard
-   │
-   ├── Pacientes
-   │
-   ├── Atendimentos
-   │
-   ├── Tipos de Atendimento
-   │
-   ├── Relatórios
-   │
-   ├── Auditoria
-   │
-   └── Usuários
-
-As capturas de tela da aplicação podem ser adicionadas posteriormente na pasta docs/screenshots.
+⚠️ Essas credenciais são destinadas somente ao ambiente de desenvolvimento/demonstração. Em produção, devem ser substituídas.
 
 ## 📈 Evolução do projeto
 
 O projeto começou com o objetivo de atender às funcionalidades básicas de cadastro e controle de atendimentos.
 
-Durante o desenvolvimento, foram adicionados recursos para tornar a aplicação mais completa e próxima de um sistema real.
+Durante o desenvolvimento, foram adicionados recursos para tornar a aplicação mais completa.
 
-Evolução
-CRUD básico
-     ↓
+CRUD
+ ↓
 Autenticação
-     ↓
+ ↓
 Controle de permissões
-     ↓
+ ↓
 Policies
-     ↓
+ ↓
 Soft Delete
-     ↓
+ ↓
 Auditoria
-     ↓
+ ↓
+Observers
+ ↓
 Relatórios
-     ↓
+ ↓
 Filtros avançados
-     ↓
+ ↓
 Exportação PDF
-     ↓
+ ↓
 Testes automatizados
 
 ## 🔮 Possíveis evoluções futuras
 
-Algumas funcionalidades podem ser adicionadas futuramente:
+Entre as possibilidades de evolução estão:
 
 Exportação para Excel/CSV;
 Dashboard com indicadores mais avançados;
@@ -586,34 +554,31 @@ Controle de status do atendimento;
 Filas de atendimento;
 API para integração com outros sistemas;
 Controle de unidades de atendimento;
-CI/CD através do GitHub Actions.
+CI/CD utilizando GitHub Actions.
 📌 Considerações técnicas
-
-Algumas decisões do projeto foram tomadas buscando manter o código organizado e facilitar futuras evoluções.
-
 Laravel
 
-Responsável pelas regras de negócio, persistência, autenticação, autorização e estrutura principal da aplicação.
+Responsável pelas regras de negócio, persistência, autenticação, autorização e estrutura principal do backend.
 
 Vue.js
 
-Responsável pela construção da interface dinâmica.
+Responsável pela construção da interface dinâmica da aplicação.
 
 Inertia.js
 
-Permite utilizar Vue no frontend mantendo a estrutura de rotas e Controllers do Laravel, reduzindo a necessidade de construir uma API separada para cada tela.
+Permite utilizar Vue.js no frontend mantendo a estrutura de rotas e Controllers do Laravel.
 
 Eloquent
 
-Utilizado para trabalhar com os modelos e relacionamentos do banco de dados.
+Responsável pela interação com o banco de dados e pelos relacionamentos entre as entidades.
 
 Policies e Middleware
 
-Utilizados conjuntamente para separar controle de acesso geral de autorização específica de recursos.
+Utilizados conjuntamente para separar controle de acesso geral de autorização específica dos recursos.
 
 Observers e Events
 
-Utilizados para desacoplar comportamentos secundários, como auditoria.
+Utilizados para desacoplar comportamentos secundários, principalmente relacionados à auditoria.
 
 ## 👨‍💻 Autor
 
